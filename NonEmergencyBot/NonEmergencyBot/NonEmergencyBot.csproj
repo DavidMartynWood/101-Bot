@@ -169,6 +169,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="LUIS\LuisContext.cs" />
+    <Compile Include="LUIS\LUISMap.cs" />
+    <Compile Include="LUIS\TopScoringIntent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

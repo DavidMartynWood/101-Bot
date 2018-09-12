@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
+using NonEmergencyBot.LUIS;
 
 namespace NonEmergencyBot.Dialogs
 {
@@ -157,6 +158,16 @@ namespace NonEmergencyBot.Dialogs
         public async Task HandleIssueTypeEntry(IDialogContext context, IMessageActivity result)
         {
             // Do some intent calculation here.
+            var luis = new LuisContext(result.Text);
+            var intentJson = luis.CurrentResponse;
+
+            PromptDialog.Confirm(
+                context,
+                ConfirmIssueTypeEntry,
+                $"I would categorise that as {intentJson.TopScoringIntent.Intent.ToLower()} with {(intentJson.TopScoringIntent.Score * 100).ToString("#.00")}% confidence. Is that correct?",
+                "Sorry, I didn't quite understand you, can you try again?",
+                promptStyle: PromptStyle.Auto);
+
         }
         public async Task ConfirmIssueTypeEntry(IDialogContext context, IAwaitable<bool> arg)
         {
