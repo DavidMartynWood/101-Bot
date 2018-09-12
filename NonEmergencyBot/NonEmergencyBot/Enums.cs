@@ -8,8 +8,13 @@ namespace NonEmergencyBot
     public enum BotState
     {
         None,
-        ImmediateHelp,
-        Name
-
+        Name,
+        DateOfBirth,
+        AskIssue,
+        Location,
+        Issue_Theft,
+        Issue_Assault,
+        Issue_Witness,
+        ContactDetails,
     }
 }
