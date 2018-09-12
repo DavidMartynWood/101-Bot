@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -46,8 +47,20 @@ namespace NonEmergencyBot
                 if (message.MembersAdded.Any(x => x.Id == message.Recipient.Id))
                 {
                     ConnectorClient connector = new ConnectorClient(new Uri(message.ServiceUrl));
-                    var reply = message.CreateReply("Hi, I'm your friendly neighbourhood 101 Bot!");
+                    var cheshirePoliceLogo =
+                        "https://www.police.uk/static/img/crest/cheshire.png";
+
+                    var reply = message.CreateReply();
+                    var card = new HeroCard
+                    {
+                        Title = "Cheshire Police 101",
+                        Text = "Welcome to Cheshire Police 101 Web Chat",
+                        Images = new List<CardImage> { new CardImage(cheshirePoliceLogo) },
+                        
+                    };
+                    reply.Attachments.Add(card.ToAttachment());
                     connector.Conversations.ReplyToActivity(reply);
+
                     reply = message.CreateReply("I am just going to take a few simple details from you " +
                         "so our operator will know how to help you.");
                     connector.Conversations.ReplyToActivity(reply);
