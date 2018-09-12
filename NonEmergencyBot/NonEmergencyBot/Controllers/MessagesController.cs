@@ -24,13 +24,13 @@ namespace NonEmergencyBot
             }
             else
             {
-                HandleSystemMessage(activity);
+                await HandleSystemMessage(activity);
             }
             var response = Request.CreateResponse(HttpStatusCode.OK);
             return response;
         }
 
-        private Activity HandleSystemMessage(Activity message)
+        private async  Task<Activity> HandleSystemMessage(Activity message)
         {
             string messageType = message.GetActivityType();
             if (messageType == ActivityTypes.DeleteUserData)
@@ -51,6 +51,8 @@ namespace NonEmergencyBot
                     reply = message.CreateReply("I am just going to take a few simple details from you " +
                         "so our operator will know how to help you.");
                     connector.Conversations.ReplyToActivity(reply);
+
+                    await Conversation.SendAsync(message, () => new Dialogs.RootDialog());
                 }
             }
             else if (messageType == ActivityTypes.ContactRelationUpdate)
