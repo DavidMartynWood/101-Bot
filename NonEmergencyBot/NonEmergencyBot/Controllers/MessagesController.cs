@@ -51,9 +51,6 @@ namespace NonEmergencyBot
             {
                 // Handle knowing that the user is typing
             }
-            else if (messageType == ActivityTypes.Ping)
-            {
-            }
 
             return null;
         }
