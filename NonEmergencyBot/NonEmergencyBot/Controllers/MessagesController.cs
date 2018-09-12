@@ -1,4 +1,6 @@
-﻿using System.Net;
+﻿using System;
+using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -41,6 +43,15 @@ namespace NonEmergencyBot
                 // Handle conversation state changes, like members being added and removed
                 // Use Activity.MembersAdded and Activity.MembersRemoved and Activity.Action for info
                 // Not available in all channels
+                if (message.MembersAdded.Any(x => x.Id == message.Recipient.Id))
+                {
+                    ConnectorClient connector = new ConnectorClient(new Uri(message.ServiceUrl));
+                    var reply = message.CreateReply("Hi, I'm your friendly neighbourhood 101 Bot!");
+                    connector.Conversations.ReplyToActivity(reply);
+                    reply = message.CreateReply("I am just going to take a few simple details from you " +
+                        "so our operator will know how to help you.");
+                    connector.Conversations.ReplyToActivity(reply);
+                }
             }
             else if (messageType == ActivityTypes.ContactRelationUpdate)
             {
