@@ -38,9 +38,9 @@ namespace NonEmergencyBot
 
             try
             {
-                PrivateKeys.LUISApiKey = ConfigurationManager.AppSettings["LuisAppId"];
-                PrivateKeys.LUISSubscriptionKey = ConfigurationManager.AppSettings["LuisAPIKey"];
-                PrivateKeys.VisionApiKey = ConfigurationManager.AppSettings["VisionAPIKey"];
+                PrivateKeys.LUISApiKey = ConfigurationManager.AppSettings["LuisAppId"] ?? PrivateKeys.LUISApiKey;
+                PrivateKeys.LUISSubscriptionKey = ConfigurationManager.AppSettings["LuisAPIKey"] ?? PrivateKeys.LUISSubscriptionKey;
+                PrivateKeys.VisionApiKey = ConfigurationManager.AppSettings["VisionAPIKey"] ?? PrivateKeys.VisionApiKey;
             }
             catch
             {
