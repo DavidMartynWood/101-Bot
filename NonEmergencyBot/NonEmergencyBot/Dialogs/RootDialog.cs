@@ -1,14 +1,16 @@
 ﻿using System;
-using System.Globalization;
-using System.Threading.Tasks;
-using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Connector;
-using NonEmergencyBot.LUIS;
-using System.Linq;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Net;
+using System.Threading.Tasks;
+
 using Microsoft.Azure.CognitiveServices.Vision.ComputerVision;
 using Microsoft.Azure.CognitiveServices.Vision.ComputerVision.Models;
-using System.Net;
+using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Connector;
+
+using NonEmergencyBot.LUIS;
 
 namespace NonEmergencyBot.Dialogs
 {
