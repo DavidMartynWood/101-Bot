@@ -65,20 +65,6 @@ namespace NonEmergencyBot.Dialogs
                     break;
                 case BotState.AskLocation:
                     break;
-                case BotState.Issue_Theft:
-                    break;
-                case BotState.Issue_Assault:
-                    break;
-                case BotState.Issue_Harassment:
-                    break;
-                case BotState.Issue_CarCrash:
-                    break;
-                case BotState.Issue_CriminalDamage:
-                    break;
-                case BotState.Issue_Information:
-                    break;
-                case BotState.Issue_None:
-                    break;
                 case BotState.ContactDetails:
                     break;
                 default:
@@ -205,7 +191,6 @@ namespace NonEmergencyBot.Dialogs
                 promptStyle: PromptStyle.Auto);
 
         }
-
         public async Task ConfirmIssueTypeEntry(IDialogContext context, IAwaitable<bool> arg)
         {
             var confirm = await arg;
@@ -254,86 +239,6 @@ namespace NonEmergencyBot.Dialogs
                 await ForwardToOperator(context);
             }
         }
-
-        private async Task HandleAssultIssue(IDialogContext context)
-        {
-            if (LUISIssueResult.CurrentResponse.Entities.Any(x => x.Type == Entities.Weapon))
-            {
-                var weapon = LUISIssueResult.CurrentResponse.Entities.Where(x => x.Type == Entities.Weapon).FirstOrDefault();
-
-                // Weapon involved, need extra assistance?
-                PromptDialog.Confirm(
-                    context,
-                    ConfirmWeaponAdditionalServices,
-                    $"I noticed you mentioned there was a {weapon.Entity}, do you need additional emergency services?",
-                    "Sorry, I didn't quite understand you, can you try again?",
-                    promptStyle: PromptStyle.Auto);
-            }
-            else
-            {
-                PromptDialog.Confirm(
-                    context,
-                    ConfirmAnyInjuriesFromAssault,
-                    $"Do you have any injuries from the assault?",
-                    "Sorry, I didn't quite understand you, can you try again?",
-                    promptStyle: PromptStyle.Auto);
-            }
-
-
-            State = BotState.AskLocation;
-        }
-
-        private async Task ConfirmAnyInjuriesFromAssault(IDialogContext context, IAwaitable<bool> arg)
-        {
-            var confirm = await arg;
-
-            if (confirm)
-            {
-                PromptDialog.Attachment(
-                    context,
-                    AssaultInjuriesUploaded,
-                    $"Please upload any pictures of your injuries that you have.");
-            }
-        }
-
-        private async Task AssaultInjuriesUploaded(IDialogContext context, IAwaitable<IEnumerable<Attachment>> arg)
-        {
-            var injuries = await arg;
-            AssaultInjuryImages = injuries.Select(x => x.ContentUrl).ToList();
-
-            if (AssaultInjuryImages.Any())
-            {
-                await context.PostAsync($"Thank you for uploading those for me.");
-            }
-
-            context.Wait(MessageReceivedAsync);
-        }
-
-
-        private async Task ConfirmWeaponAdditionalServices(IDialogContext context, IAwaitable<bool> arg)
-        {
-            var confirm = await arg;
-
-            if (confirm)
-            {
-                // Complainant needs additional services, notify them here.
-                await context.PostAsync($"We will notify additional emergency services that there is a " +
-                    $"{LUISIssueResult.CurrentResponse.Entities.Where(x => x.Type == Entities.Weapon)?.FirstOrDefault().Entity} involved.");
-            }
-            else
-            {
-                await context.PostAsync($"Thank you for letting us know there was a " +
-                    $"{LUISIssueResult.CurrentResponse.Entities.Where(x => x.Type == Entities.Weapon)?.FirstOrDefault().Entity} involved.");
-            }
-
-            PromptDialog.Confirm(
-                context,
-                ConfirmAnyInjuriesFromAssault,
-                $"Do you have any injuries from the assault?",
-                "Sorry, I didn't quite understand you, can you try again?",
-                promptStyle: PromptStyle.Auto);
-        }
-
         private void PromptForStolenObjectUpload(IDialogContext context)
         {
             PromptDialog.Attachment(
@@ -341,12 +246,6 @@ namespace NonEmergencyBot.Dialogs
                 TheftObjectUploaded,
                 $"Please upload a picture of your {LUISIssueResult.CurrentResponse.Entities.Where(x => x.Type == Entities.StolenObject).FirstOrDefault()?.Entity}");
         }
-
-        private async Task ForwardToOperator(IDialogContext context)
-        {
-            await context.PostAsync($"Thank you for the information. I am forwarding you to another member of staff who can comlpete your enquiry");
-        }
-
         private async Task TheftObjectUploaded(IDialogContext context, IAwaitable<IEnumerable<Attachment>> arg)
         {
             var stolen = await arg;
@@ -381,7 +280,6 @@ namespace NonEmergencyBot.Dialogs
                 }
             }
         }
-
         private async Task ConfirmPictureOfStolenObjectIsCorrect(IDialogContext context, IAwaitable<bool> result)
         {
             var confirmed = await result;
@@ -399,7 +297,6 @@ namespace NonEmergencyBot.Dialogs
 
             context.Wait(MessageReceivedAsync);
         }
-
         private bool ContainsItemOrPseudonym(IList<ImageTag> tags, string theftObject)
         {
             if (tags.Any(x => string.Equals(x.Name, theftObject, StringComparison.InvariantCultureIgnoreCase)))
@@ -415,16 +312,89 @@ namespace NonEmergencyBot.Dialogs
             return false;
         }
 
+        private async Task HandleAssultIssue(IDialogContext context)
+        {
+            if (LUISIssueResult.CurrentResponse.Entities.Any(x => x.Type == Entities.Weapon))
+            {
+                var weapon = LUISIssueResult.CurrentResponse.Entities.Where(x => x.Type == Entities.Weapon).FirstOrDefault();
+
+                // Weapon involved, need extra assistance?
+                PromptDialog.Confirm(
+                    context,
+                    ConfirmWeaponAdditionalServices,
+                    $"I noticed you mentioned there was a {weapon.Entity}, do you need additional emergency services?",
+                    "Sorry, I didn't quite understand you, can you try again?",
+                    promptStyle: PromptStyle.Auto);
+            }
+            else
+            {
+                PromptDialog.Confirm(
+                    context,
+                    ConfirmAnyInjuriesFromAssault,
+                    $"Do you have any injuries from the assault?",
+                    "Sorry, I didn't quite understand you, can you try again?",
+                    promptStyle: PromptStyle.Auto);
+            }
+
+
+            State = BotState.AskLocation;
+        }
+        private async Task ConfirmAnyInjuriesFromAssault(IDialogContext context, IAwaitable<bool> arg)
+        {
+            var confirm = await arg;
+
+            if (confirm)
+            {
+                PromptDialog.Attachment(
+                    context,
+                    AssaultInjuriesUploaded,
+                    $"Please upload any pictures of your injuries that you have.");
+            }
+        }
+        private async Task AssaultInjuriesUploaded(IDialogContext context, IAwaitable<IEnumerable<Attachment>> arg)
+        {
+            var injuries = await arg;
+            AssaultInjuryImages = injuries.Select(x => x.ContentUrl).ToList();
+
+            if (AssaultInjuryImages.Any())
+            {
+                await context.PostAsync($"Thank you for uploading those for me.");
+            }
+
+            context.Wait(MessageReceivedAsync);
+        }
+        private async Task ConfirmWeaponAdditionalServices(IDialogContext context, IAwaitable<bool> arg)
+        {
+            var confirm = await arg;
+
+            if (confirm)
+            {
+                // Complainant needs additional services, notify them here.
+                await context.PostAsync($"We will notify additional emergency services that there is a " +
+                    $"{LUISIssueResult.CurrentResponse.Entities.Where(x => x.Type == Entities.Weapon)?.FirstOrDefault().Entity} involved.");
+            }
+            else
+            {
+                await context.PostAsync($"Thank you for letting us know there was a " +
+                    $"{LUISIssueResult.CurrentResponse.Entities.Where(x => x.Type == Entities.Weapon)?.FirstOrDefault().Entity} involved.");
+            }
+
+            PromptDialog.Confirm(
+                context,
+                ConfirmAnyInjuriesFromAssault,
+                $"Do you have any injuries from the assault?",
+                "Sorry, I didn't quite understand you, can you try again?",
+                promptStyle: PromptStyle.Auto);
+        }
+
+        private async Task ForwardToOperator(IDialogContext context)
+        {
+            await context.PostAsync($"Thank you for the information. I am forwarding you to another member of staff who can comlpete your enquiry");
+        }
         private async Task IssueCrimeReferenceNumber(IDialogContext context)
         {
             await context.PostAsync($"Thank you for the information. Your crime reference number is {nextCrimeReference++}");
         }
-
-        public async Task HandleBicycleImage(IDialogContext context, IMessageActivity result)
-        {
-            
-        }
-
         private BotState IntentStringToIssue(Intents intent)
         {
             switch(intent)
