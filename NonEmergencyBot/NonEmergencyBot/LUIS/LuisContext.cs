@@ -29,7 +29,8 @@ namespace NonEmergencyBot.LUIS
                 {
                     using (StreamReader reader = new StreamReader(stream))
                     {
-                        CurrentResponse = JsonConvert.DeserializeObject<LUISMap>(reader.ReadToEnd());
+                        string rawJson = reader.ReadToEnd();
+                        CurrentResponse = JsonConvert.DeserializeObject<LUISMap>(rawJson);
                     }
                 }
             }

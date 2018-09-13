@@ -4,6 +4,11 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
 using NonEmergencyBot.LUIS;
+using System.Linq;
+using System.Collections.Generic;
+using Microsoft.Azure.CognitiveServices.Vision.ComputerVision;
+using Microsoft.Azure.CognitiveServices.Vision.ComputerVision.Models;
+using System.Net;
 
 namespace NonEmergencyBot.Dialogs
 {
@@ -12,9 +17,19 @@ namespace NonEmergencyBot.Dialogs
     {
         protected BotState State { get; set; } = BotState.None;
 
+        protected string TheftObject { get; set; }
+
         protected bool NeedsEmergencyHelp { get; set; }
         protected string Name { get; set; }
         protected DateTime DateOfBirth { get; set; }
+
+        private static readonly List<VisualFeatureTypes> features =
+            new List<VisualFeatureTypes>()
+            {
+                        VisualFeatureTypes.Categories, VisualFeatureTypes.Description,
+                        VisualFeatureTypes.Faces, VisualFeatureTypes.ImageType,
+                        VisualFeatureTypes.Tags
+            };
 
 
         public Task StartAsync(IDialogContext context)
@@ -161,6 +176,9 @@ namespace NonEmergencyBot.Dialogs
             var luis = new LuisContext(result.Text);
             var intentJson = luis.CurrentResponse;
 
+            State = IntentStringToIssue(intentJson.TopScoringIntent.Intent);
+            TheftObject = intentJson.Entities.FirstOrDefault()?.Entity;
+
             PromptDialog.Confirm(
                 context,
                 ConfirmIssueTypeEntry,
@@ -169,19 +187,68 @@ namespace NonEmergencyBot.Dialogs
                 promptStyle: PromptStyle.Auto);
 
         }
+
         public async Task ConfirmIssueTypeEntry(IDialogContext context, IAwaitable<bool> arg)
         {
             var confirm = await arg;
 
             if (confirm)
             {
+                if (State == BotState.Issue_Theft && !string.IsNullOrEmpty(TheftObject))
+                {
+                    PromptDialog.Attachment(
+                        context,
+                        TheftObjectUploaded,
+                        $"Please upload a picture of your {TheftObject}");
+                }
+                else
+                {
+                    await ForwardToOperator(context);
+                }
             }
             else
             {
+                await ForwardToOperator(context);
             }
-
-            context.Wait(MessageReceivedAsync);
         }
 
+        private async Task ForwardToOperator(IDialogContext context)
+        {
+            await context.PostAsync($"Thank you for the information. I am forwarding you to another member of staff who can comlpete your enquiry");
+        }
+
+        private async Task TheftObjectUploaded(IDialogContext context, IAwaitable<IEnumerable<Attachment>> arg)
+        {
+            var attachments = await arg;
+
+            var att = attachments.FirstOrDefault();
+
+            if (att != null)
+            {
+                var req = System.Net.WebRequest.Create(att.ContentUrl);
+                var response = req.GetResponse();
+                using (var stream = response.GetResponseStream())
+                {
+                    ComputerVisionClient client = new ComputerVisionClient(new ApiKeyServiceClientCredentials(PrivateKeys.VisionApiKey));
+                    client.Endpoint = "https://northeurope.api.cognitive.microsoft.com";
+                    var imageAnalysis = await client.AnalyzeImageInStreamAsync(stream, features);
+                }
+            }
+        }
+
+        public async Task HandleBicycleImage(IDialogContext context, IMessageActivity result)
+        {
+            
+        }
+
+        private BotState IntentStringToIssue(string intent)
+        {
+            switch(intent.ToLower())
+            {
+                case "theft": return BotState.Issue_Theft;
+                case "assault": return BotState.Issue_Assault;
+                default: return BotState.AskIssue;
+            }
+        }
     }
 }
