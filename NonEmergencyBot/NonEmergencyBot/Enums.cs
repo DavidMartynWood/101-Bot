@@ -15,5 +15,6 @@
         Issue_Information,
         Issue_None,
         ContactDetails,
+        ConversationFinished,
     }
 }

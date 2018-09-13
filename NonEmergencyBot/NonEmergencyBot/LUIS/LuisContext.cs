@@ -10,9 +10,9 @@ namespace NonEmergencyBot.LUIS
     public class LuisContext
     {
         public readonly string QueryUri = "https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/" +
-            PrivateKeys.LUISApiKey +
+            PrivateKeys.LuisAppId +
             "?subscription-key=" +
-            PrivateKeys.LUISSubscriptionKey +
+            PrivateKeys.LuisApiKey +
             "&verbose=true&timezoneOffset=0&q=";
 
         public string CurrentQuery { get; set; }

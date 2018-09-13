@@ -187,6 +187,7 @@
     <Content Include="packages.config">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="LUIS\Training Data\v0.1\NonEmergencyLuis-a6cc.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

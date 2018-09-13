@@ -71,8 +71,11 @@ namespace NonEmergencyBot.Dialogs
                     break;
                 case BotState.ContactDetails:
                     // Ask complainant for contact details for an operator/officer to call/email them
+                    await HandleReceiveContactInformation(context, activity);
                     break;
+                case BotState.ConversationFinished:
                 default:
+                    context.Wait(MessageReceivedAsync);
                     break;
             }
         }
@@ -116,7 +119,7 @@ namespace NonEmergencyBot.Dialogs
                 ConfirmNameEntry,
                 $"Your name is {Name}?",
                 "Sorry, I didn't quite understand you, can you try again?",
-                promptStyle: PromptStyle.Auto);
+                promptStyle: PromptStyle.None);
         }
         public async Task ConfirmNameEntry(IDialogContext context, IAwaitable<bool> arg)
         {
@@ -148,7 +151,7 @@ namespace NonEmergencyBot.Dialogs
                     ConfirmDateOfBirthEntry,
                     $"Your date of birth is {dobString.ToString("dd/MM/yyyy")}?",
                     "Sorry, I didn't quite understand you, can you try again?",
-                    promptStyle: PromptStyle.Auto);
+                    promptStyle: PromptStyle.None);
 
             }
             catch
@@ -193,7 +196,7 @@ namespace NonEmergencyBot.Dialogs
                 $"I would categorise that as {LUISIssueResult.CurrentResponse.TopScoringIntent.Intent.ToString().ToLower()} with " +
                 $"{(LUISIssueResult.CurrentResponse.TopScoringIntent.Score * 100).ToString("#.00")}% confidence. Is that correct?",
                 "Sorry, I didn't quite understand you, can you try again?",
-                promptStyle: PromptStyle.Auto);
+                promptStyle: PromptStyle.None);
 
         }
         public async Task ConfirmIssueTypeEntry(IDialogContext context, IAwaitable<bool> arg)
@@ -284,7 +287,7 @@ namespace NonEmergencyBot.Dialogs
                             $"That looks like {imageAnalysis.Description.Captions[0].Text}. Are you sure this is a picture of the " +
                             $"{LUISIssueResult.CurrentResponse.Entities.Where(x => x.Type == Entities.StolenObject).FirstOrDefault()?.Entity}",
                             "Sorry, I didn't quite understand you, can you try again?",
-                            promptStyle: PromptStyle.Auto);
+                            promptStyle: PromptStyle.None);
                     }
                 }
             }
@@ -332,7 +335,7 @@ namespace NonEmergencyBot.Dialogs
                     ConfirmWeaponAdditionalServices,
                     $"I noticed you mentioned there was a {weapon.Entity}, do you need additional emergency services?",
                     "Sorry, I didn't quite understand you, can you try again?",
-                    promptStyle: PromptStyle.Auto);
+                    promptStyle: PromptStyle.None);
             }
             else
             {
@@ -341,11 +344,8 @@ namespace NonEmergencyBot.Dialogs
                     ConfirmAnyInjuriesFromAssault,
                     $"Do you have any injuries from the assault?",
                     "Sorry, I didn't quite understand you, can you try again?",
-                    promptStyle: PromptStyle.Auto);
+                    promptStyle: PromptStyle.None);
             }
-
-
-            State = BotState.AskLocation;
         }
         private async Task ConfirmAnyInjuriesFromAssault(IDialogContext context, IAwaitable<bool> arg)
         {
@@ -357,6 +357,10 @@ namespace NonEmergencyBot.Dialogs
                     context,
                     AssaultInjuriesUploaded,
                     $"Please upload any pictures of your injuries that you have.");
+            }
+            else
+            {
+                await ForwardToOperator(context);
             }
         }
         private async Task AssaultInjuriesUploaded(IDialogContext context, IAwaitable<IEnumerable<Attachment>> arg)
@@ -392,7 +396,7 @@ namespace NonEmergencyBot.Dialogs
                 ConfirmAnyInjuriesFromAssault,
                 $"Do you have any injuries?",
                 "Sorry, I didn't quite understand you, can you try again?",
-                promptStyle: PromptStyle.Auto);
+                promptStyle: PromptStyle.None);
         }
 
         private async Task HandleHarassmentIssue(IDialogContext context)
@@ -409,7 +413,7 @@ namespace NonEmergencyBot.Dialogs
                 ConfirmCrashPeopleInjured,
                 "Do you know if there is anyone injured and in need of medical assistance?",
                 "Sorry, I didn't understand that, could you try again?",
-                promptStyle: PromptStyle.Auto);
+                promptStyle: PromptStyle.None);
         }
         private async Task ConfirmCrashPeopleInjured(IDialogContext context, IAwaitable<bool> arg)
         {
@@ -441,7 +445,7 @@ namespace NonEmergencyBot.Dialogs
                     ConfirmWeaponAdditionalServices,
                     $"I noticed you mentioned there was a {weapon.Entity}, do you need additional emergency services?",
                     "Sorry, I didn't quite understand you, can you try again?",
-                    promptStyle: PromptStyle.Auto);
+                    promptStyle: PromptStyle.None);
             }
             else
             {
@@ -465,7 +469,7 @@ namespace NonEmergencyBot.Dialogs
                 ConfirmReceiveLocation,
                 $"Your location is {result}, is that correct?",
                 "Sorry, I didn't understand that, could you try again?",
-                promptStyle: PromptStyle.Auto);
+                promptStyle: PromptStyle.None);
 
         }
         private async Task ConfirmReceiveLocation(IDialogContext context, IAwaitable<bool> arg)
@@ -479,7 +483,7 @@ namespace NonEmergencyBot.Dialogs
                     ConfirmAllowContact,
                     "Would you like us to contact you if we need any more information?",
                     "Sorry, I didn't understand that, could you try again?",
-                    promptStyle: PromptStyle.Auto);
+                    promptStyle: PromptStyle.None);
 
             }
             else
@@ -513,7 +517,7 @@ namespace NonEmergencyBot.Dialogs
                 ConfirmReceiveContactInformation,
                 $"So the best number to reach you on is {ContactNumber}?",
                 "Sorry, I didn't quite get that, could you try again?",
-                promptStyle: PromptStyle.Auto);
+                promptStyle: PromptStyle.None);
         }
         private async Task ConfirmReceiveContactInformation(IDialogContext context, IAwaitable<bool> arg)
         {
@@ -533,6 +537,7 @@ namespace NonEmergencyBot.Dialogs
 
         private async Task ForwardToOperator(IDialogContext context)
         {
+            State = BotState.ConversationFinished;
             await context.PostAsync($"Thank you for the information. I am forwarding you to another member of staff who can comlpete your enquiry");
         }
         private async Task IssueCrimeReferenceNumber(IDialogContext context)

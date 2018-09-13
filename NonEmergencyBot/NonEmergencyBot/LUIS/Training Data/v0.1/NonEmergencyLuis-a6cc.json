@@ -1,0 +1,2844 @@
+{
+  "luis_schema_version": "3.0.0",
+  "versionId": "0.1",
+  "name": "NonEmergencyLuis-a6cc",
+  "desc": "Default Intents for Azure Bot Service V2",
+  "culture": "en-us",
+  "intents": [
+    {
+      "name": "Assault"
+    },
+    {
+      "name": "CarCrash"
+    },
+    {
+      "name": "CriminalDamage"
+    },
+    {
+      "name": "Harassment"
+    },
+    {
+      "name": "Information"
+    },
+    {
+      "name": "None"
+    },
+    {
+      "name": "Theft"
+    }
+  ],
+  "entities": [
+    {
+      "name": "CrimeAction",
+      "roles": []
+    },
+    {
+      "name": "CrimeLocation",
+      "roles": []
+    },
+    {
+      "name": "Descriptor",
+      "roles": []
+    },
+    {
+      "name": "StolenObject",
+      "roles": []
+    },
+    {
+      "name": "Weapon",
+      "roles": []
+    }
+  ],
+  "composites": [],
+  "closedLists": [],
+  "patternAnyEntities": [],
+  "regex_entities": [],
+  "prebuiltEntities": [],
+  "model_features": [],
+  "regex_features": [],
+  "patterns": [],
+  "utterances": [
+    {
+      "text": "a bus has just pushed me off the road near thomas lane",
+      "intent": "CarCrash",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 0,
+          "endPos": 4
+        },
+        {
+          "entity": "CrimeAction",
+          "startPos": 15,
+          "endPos": 20
+        },
+        {
+          "entity": "CrimeLocation",
+          "startPos": 43,
+          "endPos": 53
+        }
+      ]
+    },
+    {
+      "text": "a car drove into my wall",
+      "intent": "CarCrash",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 2,
+          "endPos": 4
+        }
+      ]
+    },
+    {
+      "text": "a cyclist has been knocked down on main road",
+      "intent": "CarCrash",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 0,
+          "endPos": 8
+        },
+        {
+          "entity": "CrimeAction",
+          "startPos": 19,
+          "endPos": 30
+        },
+        {
+          "entity": "CrimeLocation",
+          "startPos": 35,
+          "endPos": 43
+        }
+      ]
+    },
+    {
+      "text": "a gang of lads shot at me",
+      "intent": "Assault",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 2,
+          "endPos": 13
+        },
+        {
+          "entity": "CrimeAction",
+          "startPos": 15,
+          "endPos": 18
+        }
+      ]
+    },
+    {
+      "text": "a group of youths spray painting the church",
+      "intent": "CriminalDamage",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 2,
+          "endPos": 16
+        },
+        {
+          "entity": "CrimeAction",
+          "startPos": 18,
+          "endPos": 31
+        },
+        {
+          "entity": "CrimeLocation",
+          "startPos": 33,
+          "endPos": 42
+        }
+      ]
+    },
+    {
+      "text": "a guy in a blue mercedes crashed into me",
+      "intent": "CarCrash",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 2,
+          "endPos": 4
+        },
+        {
+          "entity": "Descriptor",
+          "startPos": 11,
+          "endPos": 23
+        },
+        {
+          "entity": "CrimeAction",
+          "startPos": 25,
+          "endPos": 31
+        }
+      ]
+    },
+    {
+      "text": "a lorry has ran over another car",
+      "intent": "CarCrash",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 2,
+          "endPos": 6
+        },
+        {
+          "entity": "CrimeAction",
+          "startPos": 12,
+          "endPos": 19
+        },
+        {
+          "entity": "Descriptor",
+          "startPos": 29,
+          "endPos": 31
+        }
+      ]
+    },
+    {
+      "text": "a man had a knife and a gun",
+      "intent": "Assault",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 2,
+          "endPos": 4
+        },
+        {
+          "entity": "Weapon",
+          "startPos": 12,
+          "endPos": 16
+        },
+        {
+          "entity": "Weapon",
+          "startPos": 24,
+          "endPos": 26
+        }
+      ]
+    },
+    {
+      "text": "a man had a large knife",
+      "intent": "Assault",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 2,
+          "endPos": 4
+        },
+        {
+          "entity": "Weapon",
+          "startPos": 12,
+          "endPos": 22
+        }
+      ]
+    },
+    {
+      "text": "a man in a green coat took my wallet",
+      "intent": "Theft",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 2,
+          "endPos": 4
+        },
+        {
+          "entity": "Descriptor",
+          "startPos": 11,
+          "endPos": 20
+        },
+        {
+          "entity": "CrimeAction",
+          "startPos": 22,
+          "endPos": 25
+        },
+        {
+          "entity": "StolenObject",
+          "startPos": 30,
+          "endPos": 35
+        }
+      ]
+    },
+    {
+      "text": "a man in a suit attacked my wife",
+      "intent": "Assault",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 2,
+          "endPos": 4
+        },
+        {
+          "entity": "Descriptor",
+          "startPos": 11,
+          "endPos": 14
+        },
+        {
+          "entity": "CrimeAction",
+          "startPos": 16,
+          "endPos": 23
+        },
+        {
+          "entity": "Descriptor",
+          "startPos": 28,
+          "endPos": 31
+        }
+      ]
+    },
+    {
+      "text": "a man is damaging my fence",
+      "intent": "CriminalDamage",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 2,
+          "endPos": 4
+        },
+        {
+          "entity": "CrimeAction",
+          "startPos": 9,
+          "endPos": 16
+        },
+        {
+          "entity": "Descriptor",
+          "startPos": 18,
+          "endPos": 25
+        }
+      ]
+    },
+    {
+      "text": "a man is scratching the window on the bus",
+      "intent": "CriminalDamage",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 2,
+          "endPos": 4
+        },
+        {
+          "entity": "CrimeAction",
+          "startPos": 9,
+          "endPos": 18
+        },
+        {
+          "entity": "Descriptor",
+          "startPos": 20,
+          "endPos": 29
+        },
+        {
+          "entity": "CrimeLocation",
+          "startPos": 34,
+          "endPos": 40
+        }
+      ]
+    },
+    {
+      "text": "a man is threatening an old lady",
+      "intent": "Harassment",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 2,
+          "endPos": 4
+        },
+        {
+          "entity": "CrimeAction",
+          "startPos": 9,
+          "endPos": 19
+        },
+        {
+          "entity": "Descriptor",
+          "startPos": 24,
+          "endPos": 31
+        }
+      ]
+    },
+    {
+      "text": "a man nicked my keys",
+      "intent": "Theft",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 2,
+          "endPos": 4
+        },
+        {
+          "entity": "CrimeAction",
+          "startPos": 6,
+          "endPos": 11
+        },
+        {
+          "entity": "StolenObject",
+          "startPos": 16,
+          "endPos": 19
+        }
+      ]
+    },
+    {
+      "text": "a man punched me in the head",
+      "intent": "Assault",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 2,
+          "endPos": 4
+        },
+        {
+          "entity": "CrimeAction",
+          "startPos": 6,
+          "endPos": 12
+        }
+      ]
+    },
+    {
+      "text": "a person wearing a mask hit me with a cricket bat",
+      "intent": "Assault",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 2,
+          "endPos": 7
+        },
+        {
+          "entity": "Descriptor",
+          "startPos": 19,
+          "endPos": 22
+        },
+        {
+          "entity": "CrimeAction",
+          "startPos": 24,
+          "endPos": 26
+        },
+        {
+          "entity": "Weapon",
+          "startPos": 38,
+          "endPos": 48
+        }
+      ]
+    },
+    {
+      "text": "a short man in a red hat and wearing a scarf is scratching a car",
+      "intent": "CriminalDamage",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 2,
+          "endPos": 10
+        },
+        {
+          "entity": "Descriptor",
+          "startPos": 17,
+          "endPos": 23
+        },
+        {
+          "entity": "Descriptor",
+          "startPos": 37,
+          "endPos": 43
+        },
+        {
+          "entity": "CrimeAction",
+          "startPos": 48,
+          "endPos": 57
+        },
+        {
+          "entity": "Descriptor",
+          "startPos": 61,
+          "endPos": 63
+        }
+      ]
+    },
+    {
+      "text": "a short woman bit my leg",
+      "intent": "Assault",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 2,
+          "endPos": 12
+        },
+        {
+          "entity": "CrimeAction",
+          "startPos": 14,
+          "endPos": 16
+        }
+      ]
+    },
+    {
+      "text": "a tall guy jumped me",
+      "intent": "Theft",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 2,
+          "endPos": 9
+        },
+        {
+          "entity": "CrimeAction",
+          "startPos": 11,
+          "endPos": 16
+        }
+      ]
+    },
+    {
+      "text": "a traffic collision has happened outside the shopping centre",
+      "intent": "CarCrash",
+      "entities": [
+        {
+          "entity": "CrimeAction",
+          "startPos": 10,
+          "endPos": 18
+        },
+        {
+          "entity": "CrimeLocation",
+          "startPos": 41,
+          "endPos": 59
+        }
+      ]
+    },
+    {
+      "text": "a woman in a red hat stole my dog",
+      "intent": "Theft",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 2,
+          "endPos": 6
+        },
+        {
+          "entity": "Descriptor",
+          "startPos": 13,
+          "endPos": 19
+        },
+        {
+          "entity": "CrimeAction",
+          "startPos": 21,
+          "endPos": 25
+        },
+        {
+          "entity": "StolenObject",
+          "startPos": 30,
+          "endPos": 32
+        }
+      ]
+    },
+    {
+      "text": "a woman threw a rock at my window",
+      "intent": "CriminalDamage",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 2,
+          "endPos": 6
+        },
+        {
+          "entity": "CrimeAction",
+          "startPos": 8,
+          "endPos": 12
+        },
+        {
+          "entity": "Weapon",
+          "startPos": 16,
+          "endPos": 19
+        },
+        {
+          "entity": "Descriptor",
+          "startPos": 24,
+          "endPos": 32
+        }
+      ]
+    },
+    {
+      "text": "a young lady is puncturing car tyres on grove road",
+      "intent": "CriminalDamage",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 2,
+          "endPos": 11
+        },
+        {
+          "entity": "CrimeAction",
+          "startPos": 16,
+          "endPos": 25
+        },
+        {
+          "entity": "Descriptor",
+          "startPos": 27,
+          "endPos": 35
+        },
+        {
+          "entity": "CrimeLocation",
+          "startPos": 40,
+          "endPos": 49
+        }
+      ]
+    },
+    {
+      "text": "a young man beat me",
+      "intent": "Assault",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 2,
+          "endPos": 10
+        },
+        {
+          "entity": "CrimeAction",
+          "startPos": 12,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "a young man in a red cap with a moustache is following the princess to the next castle",
+      "intent": "Harassment",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 2,
+          "endPos": 10
+        },
+        {
+          "entity": "Descriptor",
+          "startPos": 17,
+          "endPos": 23
+        },
+        {
+          "entity": "Descriptor",
+          "startPos": 30,
+          "endPos": 40
+        },
+        {
+          "entity": "CrimeAction",
+          "startPos": 45,
+          "endPos": 53
+        },
+        {
+          "entity": "Descriptor",
+          "startPos": 55,
+          "endPos": 66
+        },
+        {
+          "entity": "CrimeLocation",
+          "startPos": 80,
+          "endPos": 85
+        }
+      ]
+    },
+    {
+      "text": "a young man is doing graffiti on a wall near the cathedral",
+      "intent": "CriminalDamage",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 2,
+          "endPos": 10
+        },
+        {
+          "entity": "CrimeAction",
+          "startPos": 21,
+          "endPos": 28
+        },
+        {
+          "entity": "Descriptor",
+          "startPos": 35,
+          "endPos": 38
+        },
+        {
+          "entity": "CrimeLocation",
+          "startPos": 45,
+          "endPos": 57
+        }
+      ]
+    },
+    {
+      "text": "aspen to sopris creek rd please",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "book me a seat on a bus leaving nyc to boston .",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "bus options from the space needle in seattle to the international district at 7pm",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "four cars and a lorry are piled up near the bank",
+      "intent": "CarCrash",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 0,
+          "endPos": 8
+        },
+        {
+          "entity": "Descriptor",
+          "startPos": 16,
+          "endPos": 20
+        },
+        {
+          "entity": "CrimeLocation",
+          "startPos": 35,
+          "endPos": 47
+        }
+      ]
+    },
+    {
+      "text": "he smashed a window",
+      "intent": "CriminalDamage",
+      "entities": [
+        {
+          "entity": "CrimeAction",
+          "startPos": 3,
+          "endPos": 9
+        },
+        {
+          "entity": "Descriptor",
+          "startPos": 13,
+          "endPos": 18
+        }
+      ]
+    },
+    {
+      "text": "how ' s the traffic between church stretton and chester",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "how far is orlando from new york",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "i can see a woman fighting a child",
+      "intent": "Assault",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 12,
+          "endPos": 16
+        },
+        {
+          "entity": "CrimeAction",
+          "startPos": 18,
+          "endPos": 25
+        },
+        {
+          "entity": "Descriptor",
+          "startPos": 29,
+          "endPos": 33
+        }
+      ]
+    },
+    {
+      "text": "i can see someone being followed",
+      "intent": "Harassment",
+      "entities": [
+        {
+          "entity": "CrimeAction",
+          "startPos": 24,
+          "endPos": 31
+        }
+      ]
+    },
+    {
+      "text": "i can see someone waiting outside my home",
+      "intent": "Harassment",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 26,
+          "endPos": 40
+        }
+      ]
+    },
+    {
+      "text": "i collided with a motorbike on west avenue",
+      "intent": "CarCrash",
+      "entities": [
+        {
+          "entity": "CrimeAction",
+          "startPos": 2,
+          "endPos": 9
+        },
+        {
+          "entity": "Descriptor",
+          "startPos": 18,
+          "endPos": 26
+        },
+        {
+          "entity": "CrimeLocation",
+          "startPos": 31,
+          "endPos": 41
+        }
+      ]
+    },
+    {
+      "text": "i found a wallet",
+      "intent": "Information",
+      "entities": []
+    },
+    {
+      "text": "i found someones bag",
+      "intent": "Information",
+      "entities": []
+    },
+    {
+      "text": "i got mugged",
+      "intent": "Assault",
+      "entities": []
+    },
+    {
+      "text": "i had my wallet stolen",
+      "intent": "Theft",
+      "entities": [
+        {
+          "entity": "StolenObject",
+          "startPos": 9,
+          "endPos": 14
+        }
+      ]
+    },
+    {
+      "text": "i have been assaulted",
+      "intent": "Assault",
+      "entities": [
+        {
+          "entity": "CrimeAction",
+          "startPos": 12,
+          "endPos": 20
+        }
+      ]
+    },
+    {
+      "text": "i have been kicked",
+      "intent": "Assault",
+      "entities": [
+        {
+          "entity": "CrimeAction",
+          "startPos": 12,
+          "endPos": 17
+        }
+      ]
+    },
+    {
+      "text": "i have been punched in the face",
+      "intent": "Assault",
+      "entities": [
+        {
+          "entity": "CrimeAction",
+          "startPos": 12,
+          "endPos": 18
+        }
+      ]
+    },
+    {
+      "text": "i have extra details about a crime",
+      "intent": "Information",
+      "entities": []
+    },
+    {
+      "text": "i have some information",
+      "intent": "Information",
+      "entities": []
+    },
+    {
+      "text": "i heard something happen",
+      "intent": "Information",
+      "entities": []
+    },
+    {
+      "text": "i hit a fire hydrant trying to avoid a pedestrian",
+      "intent": "CarCrash",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 8,
+          "endPos": 19
+        },
+        {
+          "entity": "Descriptor",
+          "startPos": 37,
+          "endPos": 48
+        }
+      ]
+    },
+    {
+      "text": "i hit a lamp post with my car",
+      "intent": "CarCrash",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 8,
+          "endPos": 16
+        },
+        {
+          "entity": "Descriptor",
+          "startPos": 23,
+          "endPos": 28
+        }
+      ]
+    },
+    {
+      "text": "i hit a man with my car",
+      "intent": "CarCrash",
+      "entities": [
+        {
+          "entity": "CrimeAction",
+          "startPos": 2,
+          "endPos": 4
+        },
+        {
+          "entity": "Descriptor",
+          "startPos": 8,
+          "endPos": 10
+        },
+        {
+          "entity": "Descriptor",
+          "startPos": 17,
+          "endPos": 22
+        }
+      ]
+    },
+    {
+      "text": "i need to report something",
+      "intent": "Information",
+      "entities": []
+    },
+    {
+      "text": "i saw a car crash with an old man in a yellow citroen",
+      "intent": "CarCrash",
+      "entities": [
+        {
+          "entity": "CrimeAction",
+          "startPos": 8,
+          "endPos": 16
+        },
+        {
+          "entity": "Descriptor",
+          "startPos": 26,
+          "endPos": 32
+        },
+        {
+          "entity": "Descriptor",
+          "startPos": 39,
+          "endPos": 52
+        }
+      ]
+    },
+    {
+      "text": "i saw a car hit a motorcyclist",
+      "intent": "CarCrash",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 8,
+          "endPos": 10
+        },
+        {
+          "entity": "CrimeAction",
+          "startPos": 12,
+          "endPos": 14
+        },
+        {
+          "entity": "Descriptor",
+          "startPos": 18,
+          "endPos": 29
+        }
+      ]
+    },
+    {
+      "text": "i saw a couple of guys go in the church with bats",
+      "intent": "Assault",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 8,
+          "endPos": 21
+        },
+        {
+          "entity": "CrimeLocation",
+          "startPos": 29,
+          "endPos": 38
+        },
+        {
+          "entity": "Weapon",
+          "startPos": 45,
+          "endPos": 48
+        }
+      ]
+    },
+    {
+      "text": "i saw a crime",
+      "intent": "Information",
+      "entities": []
+    },
+    {
+      "text": "i saw a fight outside mcdonalds",
+      "intent": "Assault",
+      "entities": [
+        {
+          "entity": "CrimeAction",
+          "startPos": 8,
+          "endPos": 12
+        },
+        {
+          "entity": "Descriptor",
+          "startPos": 22,
+          "endPos": 30
+        }
+      ]
+    },
+    {
+      "text": "i saw a guy with a blue jacket and tattoos steal a dog",
+      "intent": "Theft",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 8,
+          "endPos": 10
+        },
+        {
+          "entity": "Descriptor",
+          "startPos": 19,
+          "endPos": 29
+        },
+        {
+          "entity": "Descriptor",
+          "startPos": 35,
+          "endPos": 41
+        },
+        {
+          "entity": "CrimeAction",
+          "startPos": 43,
+          "endPos": 47
+        },
+        {
+          "entity": "StolenObject",
+          "startPos": 51,
+          "endPos": 53
+        }
+      ]
+    },
+    {
+      "text": "i saw a man being attacked with a gun",
+      "intent": "Assault",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 8,
+          "endPos": 10
+        },
+        {
+          "entity": "CrimeAction",
+          "startPos": 18,
+          "endPos": 25
+        },
+        {
+          "entity": "Weapon",
+          "startPos": 34,
+          "endPos": 36
+        }
+      ]
+    },
+    {
+      "text": "i saw a man being shot with a gun",
+      "intent": "Assault",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 8,
+          "endPos": 10
+        },
+        {
+          "entity": "CrimeAction",
+          "startPos": 18,
+          "endPos": 21
+        },
+        {
+          "entity": "Weapon",
+          "startPos": 30,
+          "endPos": 32
+        }
+      ]
+    },
+    {
+      "text": "i saw a man being stabbed with a knife",
+      "intent": "Assault",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 8,
+          "endPos": 10
+        },
+        {
+          "entity": "CrimeAction",
+          "startPos": 18,
+          "endPos": 24
+        },
+        {
+          "entity": "Weapon",
+          "startPos": 33,
+          "endPos": 37
+        }
+      ]
+    },
+    {
+      "text": "i saw a man get stabbed",
+      "intent": "Assault",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 8,
+          "endPos": 10
+        }
+      ]
+    },
+    {
+      "text": "i saw a man getting attacked with a knife",
+      "intent": "Assault",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 8,
+          "endPos": 10
+        },
+        {
+          "entity": "CrimeAction",
+          "startPos": 20,
+          "endPos": 27
+        },
+        {
+          "entity": "Weapon",
+          "startPos": 36,
+          "endPos": 40
+        }
+      ]
+    },
+    {
+      "text": "i saw a man with a gun",
+      "intent": "Assault",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 8,
+          "endPos": 10
+        },
+        {
+          "entity": "Weapon",
+          "startPos": 19,
+          "endPos": 21
+        }
+      ]
+    },
+    {
+      "text": "i saw a man with a knife setting barclays on fire",
+      "intent": "CriminalDamage",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 8,
+          "endPos": 10
+        },
+        {
+          "entity": "Weapon",
+          "startPos": 19,
+          "endPos": 23
+        },
+        {
+          "entity": "CrimeLocation",
+          "startPos": 33,
+          "endPos": 40
+        },
+        {
+          "entity": "CrimeAction",
+          "startPos": 42,
+          "endPos": 48
+        }
+      ]
+    },
+    {
+      "text": "i saw a man with a metal pipe",
+      "intent": "Assault",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 8,
+          "endPos": 10
+        },
+        {
+          "entity": "Weapon",
+          "startPos": 19,
+          "endPos": 28
+        }
+      ]
+    },
+    {
+      "text": "i saw a person scratching all the cars down my street",
+      "intent": "CriminalDamage",
+      "entities": [
+        {
+          "entity": "CrimeAction",
+          "startPos": 15,
+          "endPos": 24
+        },
+        {
+          "entity": "Descriptor",
+          "startPos": 34,
+          "endPos": 37
+        },
+        {
+          "entity": "CrimeLocation",
+          "startPos": 44,
+          "endPos": 52
+        }
+      ]
+    },
+    {
+      "text": "i saw a traffic accident",
+      "intent": "CarCrash",
+      "entities": [
+        {
+          "entity": "CrimeAction",
+          "startPos": 8,
+          "endPos": 23
+        }
+      ]
+    },
+    {
+      "text": "i saw a woman being followed by a creepy guy",
+      "intent": "Harassment",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 8,
+          "endPos": 12
+        },
+        {
+          "entity": "CrimeAction",
+          "startPos": 20,
+          "endPos": 27
+        },
+        {
+          "entity": "Descriptor",
+          "startPos": 34,
+          "endPos": 43
+        }
+      ]
+    },
+    {
+      "text": "i saw an old lady being hit with a stick",
+      "intent": "Assault",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 9,
+          "endPos": 16
+        },
+        {
+          "entity": "CrimeAction",
+          "startPos": 24,
+          "endPos": 26
+        }
+      ]
+    },
+    {
+      "text": "i saw an old man steal a car",
+      "intent": "Theft",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 9,
+          "endPos": 15
+        },
+        {
+          "entity": "CrimeAction",
+          "startPos": 17,
+          "endPos": 21
+        },
+        {
+          "entity": "StolenObject",
+          "startPos": 25,
+          "endPos": 27
+        }
+      ]
+    },
+    {
+      "text": "i saw john smith steal a frog",
+      "intent": "Theft",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 6,
+          "endPos": 15
+        },
+        {
+          "entity": "CrimeAction",
+          "startPos": 17,
+          "endPos": 21
+        },
+        {
+          "entity": "StolenObject",
+          "startPos": 25,
+          "endPos": 28
+        }
+      ]
+    },
+    {
+      "text": "i saw man taking a couch out of my neighbours house",
+      "intent": "Theft",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 6,
+          "endPos": 8
+        },
+        {
+          "entity": "CrimeAction",
+          "startPos": 10,
+          "endPos": 15
+        },
+        {
+          "entity": "StolenObject",
+          "startPos": 19,
+          "endPos": 23
+        },
+        {
+          "entity": "Descriptor",
+          "startPos": 35,
+          "endPos": 50
+        }
+      ]
+    },
+    {
+      "text": "i saw my friend get hit in the face",
+      "intent": "Assault",
+      "entities": [
+        {
+          "entity": "CrimeAction",
+          "startPos": 20,
+          "endPos": 22
+        }
+      ]
+    },
+    {
+      "text": "i saw my neighbour steal a bike",
+      "intent": "Theft",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 9,
+          "endPos": 17
+        },
+        {
+          "entity": "CrimeAction",
+          "startPos": 19,
+          "endPos": 23
+        },
+        {
+          "entity": "StolenObject",
+          "startPos": 27,
+          "endPos": 30
+        }
+      ]
+    },
+    {
+      "text": "i saw someone get ran over",
+      "intent": "CarCrash",
+      "entities": [
+        {
+          "entity": "CrimeAction",
+          "startPos": 18,
+          "endPos": 25
+        }
+      ]
+    },
+    {
+      "text": "i saw two cars collide outside a shop",
+      "intent": "CarCrash",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 6,
+          "endPos": 13
+        },
+        {
+          "entity": "CrimeAction",
+          "startPos": 15,
+          "endPos": 21
+        },
+        {
+          "entity": "CrimeLocation",
+          "startPos": 33,
+          "endPos": 36
+        }
+      ]
+    },
+    {
+      "text": "i saw two men mugging an old lady with a knife",
+      "intent": "Assault",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 6,
+          "endPos": 12
+        },
+        {
+          "entity": "CrimeAction",
+          "startPos": 14,
+          "endPos": 20
+        },
+        {
+          "entity": "Descriptor",
+          "startPos": 25,
+          "endPos": 32
+        },
+        {
+          "entity": "Weapon",
+          "startPos": 41,
+          "endPos": 45
+        }
+      ]
+    },
+    {
+      "text": "i skidded off the road and crashed through a fence",
+      "intent": "CarCrash",
+      "entities": [
+        {
+          "entity": "CrimeAction",
+          "startPos": 27,
+          "endPos": 33
+        }
+      ]
+    },
+    {
+      "text": "i was attack by a guy in a blue jacket with a knife",
+      "intent": "Assault",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 18,
+          "endPos": 20
+        },
+        {
+          "entity": "Descriptor",
+          "startPos": 27,
+          "endPos": 37
+        },
+        {
+          "entity": "Weapon",
+          "startPos": 46,
+          "endPos": 50
+        }
+      ]
+    },
+    {
+      "text": "i was attacked by a guy in a blue jacket with a knife",
+      "intent": "Assault",
+      "entities": [
+        {
+          "entity": "CrimeAction",
+          "startPos": 6,
+          "endPos": 13
+        },
+        {
+          "entity": "Descriptor",
+          "startPos": 20,
+          "endPos": 22
+        },
+        {
+          "entity": "Descriptor",
+          "startPos": 29,
+          "endPos": 39
+        },
+        {
+          "entity": "Weapon",
+          "startPos": 48,
+          "endPos": 52
+        }
+      ]
+    },
+    {
+      "text": "i was attacked by a man in a mask, he had a small knife",
+      "intent": "Assault",
+      "entities": [
+        {
+          "entity": "CrimeAction",
+          "startPos": 6,
+          "endPos": 13
+        },
+        {
+          "entity": "Descriptor",
+          "startPos": 20,
+          "endPos": 22
+        },
+        {
+          "entity": "Descriptor",
+          "startPos": 29,
+          "endPos": 32
+        },
+        {
+          "entity": "Weapon",
+          "startPos": 44,
+          "endPos": 54
+        }
+      ]
+    },
+    {
+      "text": "i was beaten with a stick",
+      "intent": "Assault",
+      "entities": [
+        {
+          "entity": "CrimeAction",
+          "startPos": 6,
+          "endPos": 11
+        },
+        {
+          "entity": "Weapon",
+          "startPos": 20,
+          "endPos": 24
+        }
+      ]
+    },
+    {
+      "text": "i was shot",
+      "intent": "Assault",
+      "entities": [
+        {
+          "entity": "CrimeAction",
+          "startPos": 6,
+          "endPos": 9
+        }
+      ]
+    },
+    {
+      "text": "i was shot by two men",
+      "intent": "Assault",
+      "entities": [
+        {
+          "entity": "CrimeAction",
+          "startPos": 6,
+          "endPos": 9
+        },
+        {
+          "entity": "Descriptor",
+          "startPos": 14,
+          "endPos": 20
+        }
+      ]
+    },
+    {
+      "text": "i was stabbed",
+      "intent": "Assault",
+      "entities": []
+    },
+    {
+      "text": "i was walking through the shops and a man started to attack me",
+      "intent": "Assault",
+      "entities": [
+        {
+          "entity": "CrimeLocation",
+          "startPos": 22,
+          "endPos": 30
+        },
+        {
+          "entity": "Descriptor",
+          "startPos": 38,
+          "endPos": 40
+        },
+        {
+          "entity": "CrimeAction",
+          "startPos": 53,
+          "endPos": 58
+        }
+      ]
+    },
+    {
+      "text": "i would like to report a theft",
+      "intent": "Theft",
+      "entities": [
+        {
+          "entity": "CrimeAction",
+          "startPos": 25,
+          "endPos": 29
+        }
+      ]
+    },
+    {
+      "text": "i would like to report that my bike has been stolen",
+      "intent": "Theft",
+      "entities": [
+        {
+          "entity": "StolenObject",
+          "startPos": 31,
+          "endPos": 34
+        },
+        {
+          "entity": "CrimeAction",
+          "startPos": 45,
+          "endPos": 50
+        }
+      ]
+    },
+    {
+      "text": "i would like to report the theft of my coat",
+      "intent": "Theft",
+      "entities": [
+        {
+          "entity": "CrimeAction",
+          "startPos": 27,
+          "endPos": 31
+        },
+        {
+          "entity": "StolenObject",
+          "startPos": 39,
+          "endPos": 42
+        }
+      ]
+    },
+    {
+      "text": "i've been assaulted",
+      "intent": "Assault",
+      "entities": [
+        {
+          "entity": "CrimeAction",
+          "startPos": 10,
+          "endPos": 18
+        }
+      ]
+    },
+    {
+      "text": "i've been attacked",
+      "intent": "Assault",
+      "entities": [
+        {
+          "entity": "CrimeAction",
+          "startPos": 10,
+          "endPos": 17
+        }
+      ]
+    },
+    {
+      "text": "i've been crashed into",
+      "intent": "CarCrash",
+      "entities": [
+        {
+          "entity": "CrimeAction",
+          "startPos": 10,
+          "endPos": 16
+        }
+      ]
+    },
+    {
+      "text": "i've been driven into",
+      "intent": "CarCrash",
+      "entities": [
+        {
+          "entity": "CrimeAction",
+          "startPos": 10,
+          "endPos": 20
+        }
+      ]
+    },
+    {
+      "text": "i've been involved in a collision",
+      "intent": "CarCrash",
+      "entities": [
+        {
+          "entity": "CrimeAction",
+          "startPos": 24,
+          "endPos": 32
+        }
+      ]
+    },
+    {
+      "text": "i've had an accident",
+      "intent": "CarCrash",
+      "entities": []
+    },
+    {
+      "text": "i've just been in a collision",
+      "intent": "CarCrash",
+      "entities": [
+        {
+          "entity": "CrimeAction",
+          "startPos": 20,
+          "endPos": 28
+        }
+      ]
+    },
+    {
+      "text": "i've just found some money",
+      "intent": "Information",
+      "entities": []
+    },
+    {
+      "text": "i've just rear-ended someone at the lights",
+      "intent": "CarCrash",
+      "entities": [
+        {
+          "entity": "CrimeAction",
+          "startPos": 10,
+          "endPos": 19
+        },
+        {
+          "entity": "CrimeLocation",
+          "startPos": 32,
+          "endPos": 41
+        }
+      ]
+    },
+    {
+      "text": "i've seen some youths smash a window",
+      "intent": "CriminalDamage",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 15,
+          "endPos": 20
+        },
+        {
+          "entity": "CrimeAction",
+          "startPos": 22,
+          "endPos": 26
+        },
+        {
+          "entity": "Descriptor",
+          "startPos": 30,
+          "endPos": 35
+        }
+      ]
+    },
+    {
+      "text": "london to maidenhead",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "man in hoody pulling wires out of a mains box",
+      "intent": "CriminalDamage",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 0,
+          "endPos": 2
+        },
+        {
+          "entity": "Descriptor",
+          "startPos": 7,
+          "endPos": 11
+        },
+        {
+          "entity": "CrimeAction",
+          "startPos": 13,
+          "endPos": 25
+        },
+        {
+          "entity": "Descriptor",
+          "startPos": 36,
+          "endPos": 44
+        }
+      ]
+    },
+    {
+      "text": "middlesboro kentucky to paducah kentucky",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "my bicycle has been stolen",
+      "intent": "Theft",
+      "entities": [
+        {
+          "entity": "StolenObject",
+          "startPos": 3,
+          "endPos": 9
+        },
+        {
+          "entity": "CrimeAction",
+          "startPos": 20,
+          "endPos": 25
+        }
+      ]
+    },
+    {
+      "text": "my bicycle was stolen",
+      "intent": "Theft",
+      "entities": [
+        {
+          "entity": "StolenObject",
+          "startPos": 3,
+          "endPos": 9
+        },
+        {
+          "entity": "CrimeAction",
+          "startPos": 15,
+          "endPos": 20
+        }
+      ]
+    },
+    {
+      "text": "my bike has been stolen",
+      "intent": "Theft",
+      "entities": [
+        {
+          "entity": "StolenObject",
+          "startPos": 3,
+          "endPos": 6
+        },
+        {
+          "entity": "CrimeAction",
+          "startPos": 17,
+          "endPos": 22
+        }
+      ]
+    },
+    {
+      "text": "my bike was stolen",
+      "intent": "Theft",
+      "entities": [
+        {
+          "entity": "StolenObject",
+          "startPos": 3,
+          "endPos": 6
+        },
+        {
+          "entity": "CrimeAction",
+          "startPos": 12,
+          "endPos": 17
+        }
+      ]
+    },
+    {
+      "text": "my car has been nicked",
+      "intent": "Theft",
+      "entities": [
+        {
+          "entity": "StolenObject",
+          "startPos": 3,
+          "endPos": 5
+        },
+        {
+          "entity": "CrimeAction",
+          "startPos": 16,
+          "endPos": 21
+        }
+      ]
+    },
+    {
+      "text": "my house was burgled",
+      "intent": "Theft",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 3,
+          "endPos": 7
+        },
+        {
+          "entity": "CrimeAction",
+          "startPos": 13,
+          "endPos": 19
+        }
+      ]
+    },
+    {
+      "text": "my keys were taken from my pocket",
+      "intent": "Theft",
+      "entities": [
+        {
+          "entity": "StolenObject",
+          "startPos": 3,
+          "endPos": 6
+        },
+        {
+          "entity": "CrimeAction",
+          "startPos": 13,
+          "endPos": 17
+        },
+        {
+          "entity": "Descriptor",
+          "startPos": 27,
+          "endPos": 32
+        }
+      ]
+    },
+    {
+      "text": "my phone was stolen from my bag",
+      "intent": "Theft",
+      "entities": [
+        {
+          "entity": "StolenObject",
+          "startPos": 3,
+          "endPos": 7
+        },
+        {
+          "entity": "CrimeAction",
+          "startPos": 13,
+          "endPos": 18
+        }
+      ]
+    },
+    {
+      "text": "my toad was stolen",
+      "intent": "Theft",
+      "entities": [
+        {
+          "entity": "CrimeAction",
+          "startPos": 12,
+          "endPos": 17
+        }
+      ]
+    },
+    {
+      "text": "my water bottle is green.",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "phone has been stolen",
+      "intent": "Theft",
+      "entities": [
+        {
+          "entity": "StolenObject",
+          "startPos": 0,
+          "endPos": 4
+        },
+        {
+          "entity": "CrimeAction",
+          "startPos": 15,
+          "endPos": 20
+        }
+      ]
+    },
+    {
+      "text": "rorys monitor has been violently rotated",
+      "intent": "CriminalDamage",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 0,
+          "endPos": 4
+        },
+        {
+          "entity": "Descriptor",
+          "startPos": 6,
+          "endPos": 12
+        },
+        {
+          "entity": "CrimeAction",
+          "startPos": 23,
+          "endPos": 39
+        }
+      ]
+    },
+    {
+      "text": "some men assaulted me and my friend",
+      "intent": "Assault",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 5,
+          "endPos": 7
+        },
+        {
+          "entity": "CrimeAction",
+          "startPos": 9,
+          "endPos": 17
+        }
+      ]
+    },
+    {
+      "text": "somebody hit the side of my car",
+      "intent": "CarCrash",
+      "entities": [
+        {
+          "entity": "CrimeAction",
+          "startPos": 9,
+          "endPos": 11
+        }
+      ]
+    },
+    {
+      "text": "somebody nicked my wallet",
+      "intent": "Theft",
+      "entities": [
+        {
+          "entity": "CrimeAction",
+          "startPos": 9,
+          "endPos": 14
+        },
+        {
+          "entity": "StolenObject",
+          "startPos": 19,
+          "endPos": 24
+        }
+      ]
+    },
+    {
+      "text": "somebody stabbed me",
+      "intent": "Assault",
+      "entities": [
+        {
+          "entity": "CrimeAction",
+          "startPos": 9,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "someone has just put my head through a window",
+      "intent": "Assault",
+      "entities": [
+        {
+          "entity": "CrimeAction",
+          "startPos": 17,
+          "endPos": 19
+        }
+      ]
+    },
+    {
+      "text": "someone has nicked my bike",
+      "intent": "Theft",
+      "entities": [
+        {
+          "entity": "CrimeAction",
+          "startPos": 12,
+          "endPos": 17
+        },
+        {
+          "entity": "StolenObject",
+          "startPos": 22,
+          "endPos": 25
+        }
+      ]
+    },
+    {
+      "text": "someone has taken my phone",
+      "intent": "Theft",
+      "entities": [
+        {
+          "entity": "CrimeAction",
+          "startPos": 12,
+          "endPos": 16
+        },
+        {
+          "entity": "StolenObject",
+          "startPos": 21,
+          "endPos": 25
+        }
+      ]
+    },
+    {
+      "text": "someone hit me",
+      "intent": "Assault",
+      "entities": [
+        {
+          "entity": "CrimeAction",
+          "startPos": 8,
+          "endPos": 10
+        }
+      ]
+    },
+    {
+      "text": "someone hurt me",
+      "intent": "Assault",
+      "entities": [
+        {
+          "entity": "CrimeAction",
+          "startPos": 8,
+          "endPos": 11
+        }
+      ]
+    },
+    {
+      "text": "someone in a hoody mugged me and took my phone",
+      "intent": "Theft",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 13,
+          "endPos": 17
+        },
+        {
+          "entity": "CrimeAction",
+          "startPos": 19,
+          "endPos": 24
+        },
+        {
+          "entity": "CrimeAction",
+          "startPos": 33,
+          "endPos": 36
+        },
+        {
+          "entity": "StolenObject",
+          "startPos": 41,
+          "endPos": 45
+        }
+      ]
+    },
+    {
+      "text": "someone is following me home",
+      "intent": "Harassment",
+      "entities": [
+        {
+          "entity": "CrimeAction",
+          "startPos": 11,
+          "endPos": 19
+        }
+      ]
+    },
+    {
+      "text": "someone is hitting my friend",
+      "intent": "Assault",
+      "entities": [
+        {
+          "entity": "CrimeAction",
+          "startPos": 11,
+          "endPos": 17
+        }
+      ]
+    },
+    {
+      "text": "someone is shouting abuse at me",
+      "intent": "Harassment",
+      "entities": [
+        {
+          "entity": "CrimeAction",
+          "startPos": 11,
+          "endPos": 24
+        }
+      ]
+    },
+    {
+      "text": "someone robbed my wallet",
+      "intent": "Theft",
+      "entities": [
+        {
+          "entity": "CrimeAction",
+          "startPos": 8,
+          "endPos": 13
+        },
+        {
+          "entity": "StolenObject",
+          "startPos": 18,
+          "endPos": 23
+        }
+      ]
+    },
+    {
+      "text": "someone scratched my car when they carved me up",
+      "intent": "CarCrash",
+      "entities": [
+        {
+          "entity": "CrimeAction",
+          "startPos": 8,
+          "endPos": 16
+        }
+      ]
+    },
+    {
+      "text": "stolen bike",
+      "intent": "Theft",
+      "entities": []
+    },
+    {
+      "text": "theft",
+      "intent": "Theft",
+      "entities": []
+    },
+    {
+      "text": "theft of bike",
+      "intent": "Theft",
+      "entities": [
+        {
+          "entity": "CrimeAction",
+          "startPos": 0,
+          "endPos": 4
+        },
+        {
+          "entity": "StolenObject",
+          "startPos": 9,
+          "endPos": 12
+        }
+      ]
+    },
+    {
+      "text": "theft of my bike",
+      "intent": "Theft",
+      "entities": [
+        {
+          "entity": "CrimeAction",
+          "startPos": 0,
+          "endPos": 4
+        },
+        {
+          "entity": "StolenObject",
+          "startPos": 12,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "there are a group of men brawling in front of the pub",
+      "intent": "Assault",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 12,
+          "endPos": 23
+        },
+        {
+          "entity": "CrimeAction",
+          "startPos": 25,
+          "endPos": 32
+        },
+        {
+          "entity": "CrimeLocation",
+          "startPos": 37,
+          "endPos": 52
+        }
+      ]
+    },
+    {
+      "text": "there are men shouting at me",
+      "intent": "Harassment",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 10,
+          "endPos": 12
+        },
+        {
+          "entity": "CrimeAction",
+          "startPos": 14,
+          "endPos": 27
+        }
+      ]
+    },
+    {
+      "text": "there are two cars on fire in the road",
+      "intent": "CarCrash",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 10,
+          "endPos": 17
+        },
+        {
+          "entity": "CrimeAction",
+          "startPos": 19,
+          "endPos": 25
+        }
+      ]
+    },
+    {
+      "text": "there has been a burglary",
+      "intent": "Theft",
+      "entities": [
+        {
+          "entity": "CrimeAction",
+          "startPos": 17,
+          "endPos": 24
+        }
+      ]
+    },
+    {
+      "text": "there has been a car accident",
+      "intent": "CarCrash",
+      "entities": [
+        {
+          "entity": "CrimeAction",
+          "startPos": 17,
+          "endPos": 28
+        }
+      ]
+    },
+    {
+      "text": "there has been a car accident in front of my house",
+      "intent": "CarCrash",
+      "entities": [
+        {
+          "entity": "CrimeAction",
+          "startPos": 17,
+          "endPos": 28
+        },
+        {
+          "entity": "CrimeLocation",
+          "startPos": 33,
+          "endPos": 49
+        }
+      ]
+    },
+    {
+      "text": "there has been a crash on james street",
+      "intent": "CarCrash",
+      "entities": [
+        {
+          "entity": "CrimeAction",
+          "startPos": 17,
+          "endPos": 21
+        },
+        {
+          "entity": "CrimeLocation",
+          "startPos": 26,
+          "endPos": 37
+        }
+      ]
+    },
+    {
+      "text": "there is a burglar in my friends house",
+      "intent": "Theft",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 11,
+          "endPos": 17
+        },
+        {
+          "entity": "Descriptor",
+          "startPos": 25,
+          "endPos": 37
+        }
+      ]
+    },
+    {
+      "text": "there is a fight happening outside",
+      "intent": "Assault",
+      "entities": [
+        {
+          "entity": "CrimeAction",
+          "startPos": 11,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "there is a group of men shouting lewd comments at me",
+      "intent": "Harassment",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 11,
+          "endPos": 22
+        },
+        {
+          "entity": "CrimeAction",
+          "startPos": 24,
+          "endPos": 45
+        }
+      ]
+    },
+    {
+      "text": "there is a guy knocking off car wing mirrors",
+      "intent": "CriminalDamage",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 11,
+          "endPos": 13
+        },
+        {
+          "entity": "CrimeAction",
+          "startPos": 15,
+          "endPos": 26
+        },
+        {
+          "entity": "Descriptor",
+          "startPos": 28,
+          "endPos": 43
+        }
+      ]
+    },
+    {
+      "text": "there is a large deep dish pizza in your future.",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "there is a lost child with me",
+      "intent": "Information",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 11,
+          "endPos": 20
+        }
+      ]
+    },
+    {
+      "text": "there is a man following me home",
+      "intent": "Harassment",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 11,
+          "endPos": 13
+        },
+        {
+          "entity": "CrimeAction",
+          "startPos": 15,
+          "endPos": 23
+        }
+      ]
+    },
+    {
+      "text": "there is a pile up in the left lane of the motorway",
+      "intent": "CarCrash",
+      "entities": [
+        {
+          "entity": "CrimeAction",
+          "startPos": 11,
+          "endPos": 17
+        },
+        {
+          "entity": "CrimeLocation",
+          "startPos": 26,
+          "endPos": 34
+        },
+        {
+          "entity": "CrimeLocation",
+          "startPos": 39,
+          "endPos": 50
+        }
+      ]
+    },
+    {
+      "text": "there is a woman being chased by another woman",
+      "intent": "Harassment",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 11,
+          "endPos": 15
+        },
+        {
+          "entity": "CrimeAction",
+          "startPos": 23,
+          "endPos": 28
+        },
+        {
+          "entity": "Descriptor",
+          "startPos": 41,
+          "endPos": 45
+        }
+      ]
+    },
+    {
+      "text": "there is an old woman who won't stop writing me letters",
+      "intent": "Harassment",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 12,
+          "endPos": 20
+        },
+        {
+          "entity": "CrimeAction",
+          "startPos": 26,
+          "endPos": 54
+        }
+      ]
+    },
+    {
+      "text": "there is an overturned car on the motorway",
+      "intent": "CarCrash",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 12,
+          "endPos": 25
+        },
+        {
+          "entity": "Descriptor",
+          "startPos": 34,
+          "endPos": 41
+        }
+      ]
+    },
+    {
+      "text": "there is an upside down car",
+      "intent": "CarCrash",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 12,
+          "endPos": 26
+        }
+      ]
+    },
+    {
+      "text": "there is someone hitting a door with a hammer",
+      "intent": "Assault",
+      "entities": [
+        {
+          "entity": "CrimeAction",
+          "startPos": 17,
+          "endPos": 23
+        },
+        {
+          "entity": "Weapon",
+          "startPos": 39,
+          "endPos": 44
+        }
+      ]
+    },
+    {
+      "text": "there was a robocop with a laser gun",
+      "intent": "Assault",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 12,
+          "endPos": 18
+        },
+        {
+          "entity": "Weapon",
+          "startPos": 27,
+          "endPos": 35
+        }
+      ]
+    },
+    {
+      "text": "there were three men with guns",
+      "intent": "Assault",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 11,
+          "endPos": 19
+        },
+        {
+          "entity": "Weapon",
+          "startPos": 26,
+          "endPos": 29
+        }
+      ]
+    },
+    {
+      "text": "there were two women with metal pipes beating an old man",
+      "intent": "Assault",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 11,
+          "endPos": 19
+        },
+        {
+          "entity": "Weapon",
+          "startPos": 26,
+          "endPos": 36
+        },
+        {
+          "entity": "CrimeAction",
+          "startPos": 38,
+          "endPos": 44
+        },
+        {
+          "entity": "Descriptor",
+          "startPos": 49,
+          "endPos": 55
+        }
+      ]
+    },
+    {
+      "text": "there's a fight at the club",
+      "intent": "Assault",
+      "entities": [
+        {
+          "entity": "CrimeAction",
+          "startPos": 10,
+          "endPos": 14
+        },
+        {
+          "entity": "CrimeLocation",
+          "startPos": 19,
+          "endPos": 26
+        }
+      ]
+    },
+    {
+      "text": "there's a man with a knife",
+      "intent": "Assault",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 10,
+          "endPos": 12
+        },
+        {
+          "entity": "Weapon",
+          "startPos": 21,
+          "endPos": 25
+        }
+      ]
+    },
+    {
+      "text": "there's been a minor rtc",
+      "intent": "CarCrash",
+      "entities": [
+        {
+          "entity": "CrimeAction",
+          "startPos": 15,
+          "endPos": 23
+        }
+      ]
+    },
+    {
+      "text": "there's some kids on my lawn",
+      "intent": "CriminalDamage",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 8,
+          "endPos": 16
+        },
+        {
+          "entity": "CrimeLocation",
+          "startPos": 21,
+          "endPos": 27
+        }
+      ]
+    },
+    {
+      "text": "they mugged me, there were wearing hoodies",
+      "intent": "Theft",
+      "entities": [
+        {
+          "entity": "CrimeAction",
+          "startPos": 5,
+          "endPos": 10
+        },
+        {
+          "entity": "Descriptor",
+          "startPos": 27,
+          "endPos": 41
+        }
+      ]
+    },
+    {
+      "text": "they nabbed my backpack",
+      "intent": "Theft",
+      "entities": [
+        {
+          "entity": "CrimeAction",
+          "startPos": 5,
+          "endPos": 10
+        },
+        {
+          "entity": "StolenObject",
+          "startPos": 15,
+          "endPos": 22
+        }
+      ]
+    },
+    {
+      "text": "they set fire to a wheely bin",
+      "intent": "CriminalDamage",
+      "entities": [
+        {
+          "entity": "CrimeAction",
+          "startPos": 5,
+          "endPos": 12
+        },
+        {
+          "entity": "Descriptor",
+          "startPos": 19,
+          "endPos": 28
+        }
+      ]
+    },
+    {
+      "text": "they were destroying the statue",
+      "intent": "CriminalDamage",
+      "entities": [
+        {
+          "entity": "CrimeAction",
+          "startPos": 10,
+          "endPos": 19
+        },
+        {
+          "entity": "Descriptor",
+          "startPos": 25,
+          "endPos": 30
+        }
+      ]
+    },
+    {
+      "text": "they won't stop calling me",
+      "intent": "Harassment",
+      "entities": [
+        {
+          "entity": "CrimeAction",
+          "startPos": 5,
+          "endPos": 25
+        }
+      ]
+    },
+    {
+      "text": "three cars have overturned near junction 50",
+      "intent": "CarCrash",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 0,
+          "endPos": 9
+        },
+        {
+          "entity": "CrimeAction",
+          "startPos": 16,
+          "endPos": 25
+        },
+        {
+          "entity": "CrimeLocation",
+          "startPos": 32,
+          "endPos": 42
+        }
+      ]
+    },
+    {
+      "text": "three guys mugged me",
+      "intent": "Assault",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 0,
+          "endPos": 9
+        },
+        {
+          "entity": "CrimeAction",
+          "startPos": 11,
+          "endPos": 16
+        }
+      ]
+    },
+    {
+      "text": "trapper ' s sushi puyallup to trapper ' s sushi tacoma please",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "two men are following me home",
+      "intent": "Harassment",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 0,
+          "endPos": 6
+        },
+        {
+          "entity": "CrimeAction",
+          "startPos": 12,
+          "endPos": 20
+        }
+      ]
+    },
+    {
+      "text": "two men defacing road signs",
+      "intent": "CriminalDamage",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 0,
+          "endPos": 6
+        },
+        {
+          "entity": "CrimeAction",
+          "startPos": 8,
+          "endPos": 15
+        },
+        {
+          "entity": "Descriptor",
+          "startPos": 17,
+          "endPos": 26
+        }
+      ]
+    },
+    {
+      "text": "two men shouting abuse at a baby",
+      "intent": "Harassment",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 0,
+          "endPos": 6
+        },
+        {
+          "entity": "CrimeAction",
+          "startPos": 8,
+          "endPos": 21
+        }
+      ]
+    },
+    {
+      "text": "two men wearing black took my watch",
+      "intent": "Theft",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 4,
+          "endPos": 6
+        },
+        {
+          "entity": "Descriptor",
+          "startPos": 8,
+          "endPos": 20
+        },
+        {
+          "entity": "CrimeAction",
+          "startPos": 22,
+          "endPos": 25
+        },
+        {
+          "entity": "StolenObject",
+          "startPos": 30,
+          "endPos": 34
+        }
+      ]
+    },
+    {
+      "text": "two men with guns are shooting at a car",
+      "intent": "Assault",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 0,
+          "endPos": 6
+        },
+        {
+          "entity": "Weapon",
+          "startPos": 13,
+          "endPos": 16
+        },
+        {
+          "entity": "CrimeAction",
+          "startPos": 22,
+          "endPos": 29
+        },
+        {
+          "entity": "Descriptor",
+          "startPos": 36,
+          "endPos": 38
+        }
+      ]
+    },
+    {
+      "text": "two small cars have collided in the street",
+      "intent": "CarCrash",
+      "entities": [
+        {
+          "entity": "Descriptor",
+          "startPos": 0,
+          "endPos": 13
+        },
+        {
+          "entity": "CrimeAction",
+          "startPos": 20,
+          "endPos": 27
+        },
+        {
+          "entity": "CrimeLocation",
+          "startPos": 32,
+          "endPos": 41
+        }
+      ]
+    }
+  ]
+}

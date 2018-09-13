@@ -38,8 +38,8 @@ namespace NonEmergencyBot
 
             try
             {
-                PrivateKeys.LUISApiKey = ConfigurationManager.AppSettings["LuisAppId"];
-                PrivateKeys.LUISSubscriptionKey = ConfigurationManager.AppSettings["LuisAPIKey"];
+                PrivateKeys.LuisAppId = ConfigurationManager.AppSettings["LuisAppId"];
+                PrivateKeys.LuisApiKey = ConfigurationManager.AppSettings["LuisAPIKey"];
                 PrivateKeys.VisionApiKey = ConfigurationManager.AppSettings["VisionAPIKey"];
             }
             catch
