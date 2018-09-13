@@ -31,6 +31,7 @@ namespace NonEmergencyBot.Dialogs
                         VisualFeatureTypes.Tags
             };
 
+        private int nextCrimeReference = 100;
 
         public Task StartAsync(IDialogContext context)
         {
@@ -177,12 +178,12 @@ namespace NonEmergencyBot.Dialogs
             var intentJson = luis.CurrentResponse;
 
             State = IntentStringToIssue(intentJson.TopScoringIntent.Intent);
-            TheftObject = intentJson.Entities.FirstOrDefault()?.Entity;
+            TheftObject = intentJson.Entities.FirstOrDefault(x => x.Type == Entities.StolenObject)?.Entity;
 
             PromptDialog.Confirm(
                 context,
                 ConfirmIssueTypeEntry,
-                $"I would categorise that as {intentJson.TopScoringIntent.Intent.ToLower()} with {(intentJson.TopScoringIntent.Score * 100).ToString("#.00")}% confidence. Is that correct?",
+                $"I would categorise that as {intentJson.TopScoringIntent.Intent.ToString().ToLower()} with {(intentJson.TopScoringIntent.Score * 100).ToString("#.00")}% confidence. Is that correct?",
                 "Sorry, I didn't quite understand you, can you try again?",
                 promptStyle: PromptStyle.Auto);
 
@@ -225,15 +226,34 @@ namespace NonEmergencyBot.Dialogs
 
             if (att != null)
             {
-                var req = System.Net.WebRequest.Create(att.ContentUrl);
+                var req = WebRequest.Create(att.ContentUrl);
                 var response = req.GetResponse();
                 using (var stream = response.GetResponseStream())
                 {
-                    ComputerVisionClient client = new ComputerVisionClient(new ApiKeyServiceClientCredentials(PrivateKeys.VisionApiKey));
+                    var client = new ComputerVisionClient(new ApiKeyServiceClientCredentials(PrivateKeys.VisionApiKey));
                     client.Endpoint = "https://northeurope.api.cognitive.microsoft.com";
                     var imageAnalysis = await client.AnalyzeImageInStreamAsync(stream, features);
+
+                    if (ContainsItemOrPseudonym(imageAnalysis.Tags, TheftObject))
+                    {
+                        await IssueCrimeReferenceNumber(context);
+                    }
+                    else
+                    {
+
+                    }
                 }
             }
+        }
+
+        private bool ContainsItemOrPseudonym(IList<ImageTag> tags, string theftObject)
+        {
+            return true;
+        }
+
+        private async Task IssueCrimeReferenceNumber(IDialogContext context)
+        {
+            await context.PostAsync($"Thank you for the information. Your crime reference number is {nextCrimeReference++}");
         }
 
         public async Task HandleBicycleImage(IDialogContext context, IMessageActivity result)
@@ -241,12 +261,12 @@ namespace NonEmergencyBot.Dialogs
             
         }
 
-        private BotState IntentStringToIssue(string intent)
+        private BotState IntentStringToIssue(Intents intent)
         {
-            switch(intent.ToLower())
+            switch(intent)
             {
-                case "theft": return BotState.Issue_Theft;
-                case "assault": return BotState.Issue_Assault;
+                case Intents.Theft: return BotState.Issue_Theft;
+                case Intents.Assault: return BotState.Issue_Assault;
                 default: return BotState.AskIssue;
             }
         }

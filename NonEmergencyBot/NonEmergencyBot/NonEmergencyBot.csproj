@@ -175,6 +175,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="LUIS\Entities.cs" />
+    <Compile Include="LUIS\Intents.cs" />
     <Compile Include="LUIS\LuisContext.cs" />
     <Compile Include="LUIS\LUISMap.cs" />
     <Compile Include="PrivateKeys.cs" />
