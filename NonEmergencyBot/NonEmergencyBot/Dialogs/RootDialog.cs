@@ -288,14 +288,13 @@ namespace NonEmergencyBot.Dialogs
             {
                 State = BotState.AskLocation;
                 await ForwardToOperator(context);
+                context.Wait(MessageReceivedAsync);
             }
             else
             {
                 StolenObjectImages.ToList().Clear();
                 PromptForStolenObjectUpload(context);
             }
-
-            context.Wait(MessageReceivedAsync);
         }
         private bool ContainsItemOrPseudonym(IList<ImageTag> tags, string theftObject)
         {
