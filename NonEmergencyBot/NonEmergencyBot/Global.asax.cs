@@ -4,6 +4,7 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Internals;
 using Autofac;
 using Microsoft.Bot.Connector;
+using System.Configuration;
 using System.Reflection;
 
 namespace NonEmergencyBot
@@ -34,6 +35,17 @@ namespace NonEmergencyBot
                     .AsSelf()
                     .SingleInstance();
             });
+
+            try
+            {
+                PrivateKeys.LUISApiKey = ConfigurationManager.AppSettings["LuisAppId"];
+                PrivateKeys.LUISSubscriptionKey = ConfigurationManager.AppSettings["LuisAPIKey"];
+                PrivateKeys.VisionApiKey = ConfigurationManager.AppSettings["VisionAPIKey"];
+            }
+            catch
+            {
+                // Failed to get configuration, use the default
+            }
         }
     }
 }
