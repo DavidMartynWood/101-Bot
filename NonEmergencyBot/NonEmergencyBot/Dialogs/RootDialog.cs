@@ -197,10 +197,7 @@ namespace NonEmergencyBot.Dialogs
             {
                 if (State == BotState.Issue_Theft && !string.IsNullOrEmpty(TheftObject))
                 {
-                    PromptDialog.Attachment(
-                        context,
-                        TheftObjectUploaded,
-                        $"Please upload a picture of your {TheftObject}");
+                    PromptForPictureUpload(context);
                 }
                 else
                 {
@@ -211,6 +208,14 @@ namespace NonEmergencyBot.Dialogs
             {
                 await ForwardToOperator(context);
             }
+        }
+
+        private void PromptForPictureUpload(IDialogContext context)
+        {
+            PromptDialog.Attachment(
+                context,
+                TheftObjectUploaded,
+                $"Please upload a picture of your {TheftObject}");
         }
 
         private async Task ForwardToOperator(IDialogContext context)
@@ -240,15 +245,44 @@ namespace NonEmergencyBot.Dialogs
                     }
                     else
                     {
-
+                        PromptDialog.Confirm(
+                            context,
+                            ConfirmPictureIsCorrect,
+                            $"That looks like {imageAnalysis.Description.Captions[0].Text}. Are you sure this is a picture of the {TheftObject}",
+                            "Sorry, I didn't quite understand you, can you try again?",
+                            promptStyle: PromptStyle.Auto);
                     }
                 }
             }
         }
 
+        private async Task ConfirmPictureIsCorrect(IDialogContext context, IAwaitable<bool> result)
+        {
+            var confirmed = await result;
+
+            if (confirmed)
+            {
+                await ForwardToOperator(context);
+            }
+            else
+            {
+                PromptForPictureUpload(context);
+            }
+        }
+
         private bool ContainsItemOrPseudonym(IList<ImageTag> tags, string theftObject)
         {
-            return true;
+            if (tags.Any(x => string.Equals(x.Name, theftObject, StringComparison.InvariantCultureIgnoreCase)))
+            {
+                return true;
+            }
+
+            if (string.Equals(theftObject, "bike", StringComparison.InvariantCultureIgnoreCase))
+            {
+                return ContainsItemOrPseudonym(tags, "bicycle");
+            }
+
+            return false;
         }
 
         private async Task IssueCrimeReferenceNumber(IDialogContext context)
