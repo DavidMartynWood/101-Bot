@@ -14,7 +14,11 @@ namespace NonEmergencyBot
         Location,
         Issue_Theft,
         Issue_Assault,
-        Issue_Witness,
+        Issue_Harassment,
+        Issue_CarCrash,
+        Issue_CriminalDamage,
+        Issue_Information,
+        Issue_None,
         ContactDetails,
     }
 }

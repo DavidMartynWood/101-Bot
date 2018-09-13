@@ -17,6 +17,8 @@ namespace NonEmergencyBot.Dialogs
     {
         protected BotState State { get; set; } = BotState.None;
 
+        protected LuisContext LUISIssueResult { get; set; }
+
         protected string TheftObject { get; set; }
 
         protected bool NeedsEmergencyHelp { get; set; }
@@ -43,7 +45,7 @@ namespace NonEmergencyBot.Dialogs
         public async Task MessageReceivedAsync(IDialogContext context, IAwaitable<object> result)
         {
             var activity = await result as Activity;
-
+            
             switch (State)
             {
                 case BotState.None:
@@ -58,11 +60,21 @@ namespace NonEmergencyBot.Dialogs
                 case BotState.AskIssue:
                     await HandleIssueTypeEntry(context, activity);
                     break;
+                case BotState.Location:
+                    break;
                 case BotState.Issue_Theft:
                     break;
                 case BotState.Issue_Assault:
                     break;
-                case BotState.Issue_Witness:
+                case BotState.Issue_Harassment:
+                    break;
+                case BotState.Issue_CarCrash:
+                    break;
+                case BotState.Issue_CriminalDamage:
+                    break;
+                case BotState.Issue_Information:
+                    break;
+                case BotState.Issue_None:
                     break;
                 case BotState.ContactDetails:
                     break;
@@ -159,8 +171,7 @@ namespace NonEmergencyBot.Dialogs
             if (confirm)
             {
                 State = BotState.AskIssue;
-                await context.PostAsync($"Can you please describe, in as few words as you can, " +
-                    $"the issue you are having today?");
+                await context.PostAsync($"Can you please briefly describe the issue you have?");
             }
             else
             {
@@ -174,16 +185,19 @@ namespace NonEmergencyBot.Dialogs
         public async Task HandleIssueTypeEntry(IDialogContext context, IMessageActivity result)
         {
             // Do some intent calculation here.
-            var luis = new LuisContext(result.Text);
-            var intentJson = luis.CurrentResponse;
+            LUISIssueResult = new LuisContext(result.Text);
 
-            State = IntentStringToIssue(intentJson.TopScoringIntent.Intent);
-            TheftObject = intentJson.Entities.FirstOrDefault(x => x.Type == Entities.StolenObject)?.Entity;
+            State = IntentStringToIssue(LUISIssueResult.CurrentResponse.TopScoringIntent.Intent);
+
+            // Build small issue description from Entities 
+            //  e.g. My bike was stolen from in front of my house.
+            //      - {{ Bike }} {{ stolen }} {{ my house }}
 
             PromptDialog.Confirm(
                 context,
                 ConfirmIssueTypeEntry,
-                $"I would categorise that as {intentJson.TopScoringIntent.Intent.ToString().ToLower()} with {(intentJson.TopScoringIntent.Score * 100).ToString("#.00")}% confidence. Is that correct?",
+                $"I would categorise that as {LUISIssueResult.CurrentResponse.TopScoringIntent.Intent.ToString().ToLower()} with " +
+                $"{(LUISIssueResult.CurrentResponse.TopScoringIntent.Score * 100).ToString("#.00")}% confidence. Is that correct?",
                 "Sorry, I didn't quite understand you, can you try again?",
                 promptStyle: PromptStyle.Auto);
 
@@ -193,20 +207,61 @@ namespace NonEmergencyBot.Dialogs
         {
             var confirm = await arg;
 
-            if (confirm)
+            if (confirm && State != BotState.AskIssue)
             {
-                if (State == BotState.Issue_Theft && !string.IsNullOrEmpty(TheftObject))
+                switch (State)
                 {
-                    PromptForPictureUpload(context);
-                }
-                else
-                {
-                    await ForwardToOperator(context);
+                    case BotState.Issue_Theft:
+                        await HandleTheftIssue(context);
+                        break;
+                    case BotState.Issue_Assault:
+                        await HandleAssultIssue(context);
+                        break;
+                    case BotState.Issue_Harassment:
+                        break;
+                    case BotState.Issue_CarCrash:
+                        break;
+                    case BotState.Issue_CriminalDamage:
+                        break;
+                    case BotState.Issue_Information:
+                        break;
+                    case BotState.Issue_None:
+                        break;
                 }
             }
             else
             {
+                await context.PostAsync($"Sorry, could you try describe it differently?");
+            }
+
+            context.Wait(MessageReceivedAsync);
+        }
+
+        private async Task HandleTheftIssue(IDialogContext context)
+        {
+            if (!string.IsNullOrEmpty(LUISIssueResult.CurrentResponse.Entities.FirstOrDefault(x => x.Type == Entities.StolenObject)?.Entity))
+            {
+                PromptDialog.Attachment(
+                    context,
+                    TheftObjectUploaded,
+                    $"Please upload a picture of your " +
+                    $"{LUISIssueResult.CurrentResponse.Entities.FirstOrDefault(x => x.Type == Entities.StolenObject)?.Entity}");
+            }
+            else
+            {
                 await ForwardToOperator(context);
+            }
+        }
+
+        private async Task HandleAssultIssue(IDialogContext context)
+        {
+            if (LUISIssueResult.CurrentResponse.Entities.Any(x => x.Type == Entities.Weapon))
+            {
+                var weapon = LUISIssueResult.CurrentResponse.Entities.Where(x => x.Type == Entities.Weapon).FirstOrDefault();
+
+                // Weapon involved, need extra assistance?
+                await context.PostAsync($"I noticed you said there was a {weapon.Entity}, " +
+                    $"do you require additional emergency services?");
             }
         }
 
@@ -301,6 +356,11 @@ namespace NonEmergencyBot.Dialogs
             {
                 case Intents.Theft: return BotState.Issue_Theft;
                 case Intents.Assault: return BotState.Issue_Assault;
+                case Intents.CarCrash: return BotState.Issue_CarCrash;
+                case Intents.CriminalDamage: return BotState.Issue_CriminalDamage;
+                case Intents.Harassment: return BotState.Issue_Harassment;
+                case Intents.Information: return BotState.Issue_Information;
+                case Intents.None: return BotState.Issue_None;
                 default: return BotState.AskIssue;
             }
         }
