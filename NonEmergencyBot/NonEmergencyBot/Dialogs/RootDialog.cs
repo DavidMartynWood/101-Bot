@@ -19,8 +19,8 @@ namespace NonEmergencyBot.Dialogs
 
         protected LuisContext LUISIssueResult { get; set; }
 
-        protected IEnumerable<Attachment> StolenObjectImages { get; set; }
-        protected IEnumerable<Attachment> AssaultInjuryImages { get; set; }
+        protected List<string> StolenObjectImages { get; set; }
+        protected List<string> AssaultInjuryImages { get; set; }
 
         protected bool NeedsEmergencyHelp { get; set; }
         protected string Name { get; set; }
@@ -235,8 +235,6 @@ namespace NonEmergencyBot.Dialogs
                 State = BotState.AskIssue;
                 await context.PostAsync($"Sorry, could you try describe it differently?");
             }
-
-            context.Wait(MessageReceivedAsync);
         }
 
         private async Task HandleTheftIssue(IDialogContext context)
@@ -269,13 +267,16 @@ namespace NonEmergencyBot.Dialogs
                     "Sorry, I didn't quite understand you, can you try again?",
                     promptStyle: PromptStyle.Auto);
             }
+            else
+            {
+                PromptDialog.Confirm(
+                    context,
+                    ConfirmAnyInjuriesFromAssault,
+                    $"Do you have any injuries from the assault?",
+                    "Sorry, I didn't quite understand you, can you try again?",
+                    promptStyle: PromptStyle.Auto);
+            }
 
-            PromptDialog.Confirm(
-                context,
-                ConfirmAnyInjuriesFromAssault,
-                $"Do you have any injuries from the assault?",
-                "Sorry, I didn't quite understand you, can you try again?",
-                promptStyle: PromptStyle.Auto);
 
             State = BotState.AskLocation;
         }
@@ -291,13 +292,12 @@ namespace NonEmergencyBot.Dialogs
                     AssaultInjuriesUploaded,
                     $"Please upload any pictures of your injuries that you have.");
             }
-
-            context.Wait(MessageReceivedAsync);
         }
 
         private async Task AssaultInjuriesUploaded(IDialogContext context, IAwaitable<IEnumerable<Attachment>> arg)
         {
-            AssaultInjuryImages = await arg;
+            var injuries = await arg;
+            AssaultInjuryImages = injuries.Select(x => x.ContentUrl).ToList();
 
             if (AssaultInjuryImages.Any())
             {
@@ -315,13 +315,21 @@ namespace NonEmergencyBot.Dialogs
             if (confirm)
             {
                 // Complainant needs additional services, notify them here.
+                await context.PostAsync($"We will notify additional emergency services that there is a " +
+                    $"{LUISIssueResult.CurrentResponse.Entities.Where(x => x.Type == Entities.Weapon)?.FirstOrDefault().Entity} involved.");
             }
             else
             {
-
+                await context.PostAsync($"Thank you for letting us know there was a " +
+                    $"{LUISIssueResult.CurrentResponse.Entities.Where(x => x.Type == Entities.Weapon)?.FirstOrDefault().Entity} involved.");
             }
 
-            context.Wait(MessageReceivedAsync);
+            PromptDialog.Confirm(
+                context,
+                ConfirmAnyInjuriesFromAssault,
+                $"Do you have any injuries from the assault?",
+                "Sorry, I didn't quite understand you, can you try again?",
+                promptStyle: PromptStyle.Auto);
         }
 
         private void PromptForStolenObjectUpload(IDialogContext context)
@@ -339,13 +347,14 @@ namespace NonEmergencyBot.Dialogs
 
         private async Task TheftObjectUploaded(IDialogContext context, IAwaitable<IEnumerable<Attachment>> arg)
         {
-            StolenObjectImages = await arg;
+            var stolen = await arg;
+            StolenObjectImages = stolen.Select(x => x.ContentUrl).ToList();
 
             var att = StolenObjectImages.FirstOrDefault();
 
             if (att != null)
             {
-                var req = WebRequest.Create(att.ContentUrl);
+                var req = WebRequest.Create(att);
                 var response = req.GetResponse();
                 using (var stream = response.GetResponseStream())
                 {
@@ -361,7 +370,7 @@ namespace NonEmergencyBot.Dialogs
                     {
                         PromptDialog.Confirm(
                             context,
-                            ConfirmPictureIsCorrect,
+                            ConfirmPictureOfStolenObjectIsCorrect,
                             $"That looks like {imageAnalysis.Description.Captions[0].Text}. Are you sure this is a picture of the " +
                             $"{LUISIssueResult.CurrentResponse.Entities.Where(x => x.Type == Entities.StolenObject).FirstOrDefault()?.Entity}",
                             "Sorry, I didn't quite understand you, can you try again?",
@@ -369,11 +378,9 @@ namespace NonEmergencyBot.Dialogs
                     }
                 }
             }
-
-            context.Wait(MessageReceivedAsync);
         }
 
-        private async Task ConfirmPictureIsCorrect(IDialogContext context, IAwaitable<bool> result)
+        private async Task ConfirmPictureOfStolenObjectIsCorrect(IDialogContext context, IAwaitable<bool> result)
         {
             var confirmed = await result;
 
