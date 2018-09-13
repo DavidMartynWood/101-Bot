@@ -26,6 +26,8 @@ namespace NonEmergencyBot.Dialogs
 
         protected bool NeedsEmergencyHelp { get; set; }
         protected string Name { get; set; }
+        protected string Location { get; set; }
+        protected string ContactNumber { get; set; }
         protected DateTime DateOfBirth { get; set; }
 
         private static readonly List<VisualFeatureTypes> features =
@@ -64,8 +66,11 @@ namespace NonEmergencyBot.Dialogs
                     await HandleIssueTypeEntry(context, activity);
                     break;
                 case BotState.AskLocation:
+                    // Ask complainant for location of crime
+                    await HandleReceiveLocation(context, activity);
                     break;
                 case BotState.ContactDetails:
+                    // Ask complainant for contact details for an operator/officer to call/email them
                     break;
                 default:
                     break;
@@ -206,12 +211,16 @@ namespace NonEmergencyBot.Dialogs
                         await HandleAssultIssue(context);
                         break;
                     case BotState.Issue_Harassment:
+                        await HandleHarassmentIssue(context);
                         break;
                     case BotState.Issue_CarCrash:
+                        await HandleCarCrashIssue(context);
                         break;
                     case BotState.Issue_CriminalDamage:
+                        await HandleCriminalDamageIssue(context);
                         break;
                     case BotState.Issue_Information:
+                        await HandleInformationIssue(context);
                         break;
                     case BotState.Issue_None:
                         break;
@@ -361,7 +370,7 @@ namespace NonEmergencyBot.Dialogs
                 await context.PostAsync($"Thank you for uploading those for me.");
             }
 
-            context.Wait(MessageReceivedAsync);
+            await ForwardToOperator(context);
         }
         private async Task ConfirmWeaponAdditionalServices(IDialogContext context, IAwaitable<bool> arg)
         {
@@ -382,9 +391,145 @@ namespace NonEmergencyBot.Dialogs
             PromptDialog.Confirm(
                 context,
                 ConfirmAnyInjuriesFromAssault,
-                $"Do you have any injuries from the assault?",
+                $"Do you have any injuries?",
                 "Sorry, I didn't quite understand you, can you try again?",
                 promptStyle: PromptStyle.Auto);
+        }
+
+        private async Task HandleHarassmentIssue(IDialogContext context)
+        {
+            await ForwardToOperator(context);
+        }
+
+        private async Task HandleCarCrashIssue(IDialogContext context)
+        {
+            await context.PostAsync("Thank you for letting me know.");
+
+            PromptDialog.Confirm(
+                context,
+                ConfirmCrashPeopleInjured,
+                "Do you know if there is anyone injured and in need of medical assistance?",
+                "Sorry, I didn't understand that, could you try again?",
+                promptStyle: PromptStyle.Auto);
+        }
+        private async Task ConfirmCrashPeopleInjured(IDialogContext context, IAwaitable<bool> arg)
+        {
+            var confirm = await arg;
+
+            if (confirm)
+            {
+                // People need medical help, transfer ASAP
+                await context.PostAsync("We have noted that there are people in need of medical assistance.");
+                await ForwardToOperator(context);
+            }
+            else
+            {
+                State = BotState.AskLocation;
+                await context.PostAsync($"Can you please enter your location so we can find you.");
+                context.Wait(MessageReceivedAsync);
+            }
+        }
+
+        private async Task HandleCriminalDamageIssue(IDialogContext context)
+        {
+            if (LUISIssueResult.CurrentResponse.Entities.Any(x => x.Type == Entities.Weapon))
+            {
+                var weapon = LUISIssueResult.CurrentResponse.Entities.Where(x => x.Type == Entities.Weapon).FirstOrDefault();
+
+                // Weapon involved, need extra assistance?
+                PromptDialog.Confirm(
+                    context,
+                    ConfirmWeaponAdditionalServices,
+                    $"I noticed you mentioned there was a {weapon.Entity}, do you need additional emergency services?",
+                    "Sorry, I didn't quite understand you, can you try again?",
+                    promptStyle: PromptStyle.Auto);
+            }
+            else
+            {
+                State = BotState.AskLocation;
+                await context.PostAsync($"Can you please enter your location so we can find you.");
+                context.Wait(MessageReceivedAsync);
+            }
+        }
+
+        private async Task HandleInformationIssue(IDialogContext context)
+        {
+            await ForwardToOperator(context);
+        }
+
+        private async Task HandleReceiveLocation(IDialogContext context, IMessageActivity activity)
+        {
+            var result = activity.Text;
+
+            PromptDialog.Confirm(
+                context,
+                ConfirmReceiveLocation,
+                $"Your location is {result}, is that correct?",
+                "Sorry, I didn't understand that, could you try again?",
+                promptStyle: PromptStyle.Auto);
+
+        }
+        private async Task ConfirmReceiveLocation(IDialogContext context, IAwaitable<bool> arg)
+        {
+            var confirm = await arg;
+
+            if (confirm)
+            {
+                PromptDialog.Confirm(
+                    context,
+                    ConfirmAllowContact,
+                    "Would you like us to contact you if we need any more information?",
+                    "Sorry, I didn't understand that, could you try again?",
+                    promptStyle: PromptStyle.Auto);
+
+            }
+            else
+            {
+                await context.PostAsync("Could you enter your location again for me please?");
+                context.Wait(MessageReceivedAsync);
+            }
+        }
+        private async Task ConfirmAllowContact(IDialogContext context, IAwaitable<bool> arg)
+        {
+            var confirm = await arg;
+
+            if (confirm)
+            {
+                State = BotState.ContactDetails;
+                await context.PostAsync("Could you please enter the best phone number to contact you on.");
+                context.Wait(MessageReceivedAsync);
+            }
+            else
+            {
+                await ForwardToOperator(context);
+            }
+        }
+
+        private async Task HandleReceiveContactInformation(IDialogContext context, IMessageActivity activity)
+        {
+            ContactNumber = activity.Text;
+
+            PromptDialog.Confirm(
+                context,
+                ConfirmReceiveContactInformation,
+                $"So the best number to reach you on is {ContactNumber}?",
+                "Sorry, I didn't quite get that, could you try again?",
+                promptStyle: PromptStyle.Auto);
+        }
+        private async Task ConfirmReceiveContactInformation(IDialogContext context, IAwaitable<bool> arg)
+        {
+            var confirm = await arg;
+
+            if (confirm)
+            {
+                await ForwardToOperator(context);
+            }
+            else
+            {
+                ContactNumber = null;
+                await context.PostAsync("Please could you enter your contact number again?");
+                context.Wait(MessageReceivedAsync);
+            }
         }
 
         private async Task ForwardToOperator(IDialogContext context)
