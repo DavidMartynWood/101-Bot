@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 
 namespace NonEmergencyBot.LUIS
 {
+    [Serializable]
     public class LuisContext
     {
         public const string QueryUri = "https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/" +

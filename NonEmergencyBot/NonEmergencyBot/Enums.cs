@@ -11,7 +11,7 @@ namespace NonEmergencyBot
         Name,
         DateOfBirth,
         AskIssue,
-        Location,
+        AskLocation,
         Issue_Theft,
         Issue_Assault,
         Issue_Harassment,

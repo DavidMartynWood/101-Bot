@@ -19,7 +19,8 @@ namespace NonEmergencyBot.Dialogs
 
         protected LuisContext LUISIssueResult { get; set; }
 
-        protected string TheftObject { get; set; }
+        protected IEnumerable<Attachment> StolenObjectImages { get; set; }
+        protected IEnumerable<Attachment> AssaultInjuryImages { get; set; }
 
         protected bool NeedsEmergencyHelp { get; set; }
         protected string Name { get; set; }
@@ -60,7 +61,7 @@ namespace NonEmergencyBot.Dialogs
                 case BotState.AskIssue:
                     await HandleIssueTypeEntry(context, activity);
                     break;
-                case BotState.Location:
+                case BotState.AskLocation:
                     break;
                 case BotState.Issue_Theft:
                     break;
@@ -231,6 +232,7 @@ namespace NonEmergencyBot.Dialogs
             }
             else
             {
+                State = BotState.AskIssue;
                 await context.PostAsync($"Sorry, could you try describe it differently?");
             }
 
@@ -260,17 +262,74 @@ namespace NonEmergencyBot.Dialogs
                 var weapon = LUISIssueResult.CurrentResponse.Entities.Where(x => x.Type == Entities.Weapon).FirstOrDefault();
 
                 // Weapon involved, need extra assistance?
-                await context.PostAsync($"I noticed you said there was a {weapon.Entity}, " +
-                    $"do you require additional emergency services?");
+                PromptDialog.Confirm(
+                    context,
+                    ConfirmWeaponAdditionalServices,
+                    $"I noticed you mentioned there was a {weapon.Entity}, do you need additional emergency services?",
+                    "Sorry, I didn't quite understand you, can you try again?",
+                    promptStyle: PromptStyle.Auto);
             }
+
+            PromptDialog.Confirm(
+                context,
+                ConfirmAnyInjuriesFromAssault,
+                $"Do you have any injuries from the assault?",
+                "Sorry, I didn't quite understand you, can you try again?",
+                promptStyle: PromptStyle.Auto);
+
+            State = BotState.AskLocation;
         }
 
-        private void PromptForPictureUpload(IDialogContext context)
+        private async Task ConfirmAnyInjuriesFromAssault(IDialogContext context, IAwaitable<bool> arg)
+        {
+            var confirm = await arg;
+
+            if (confirm)
+            {
+                PromptDialog.Attachment(
+                    context,
+                    AssaultInjuriesUploaded,
+                    $"Please upload any pictures of your injuries that you have.");
+            }
+
+            context.Wait(MessageReceivedAsync);
+        }
+
+        private async Task AssaultInjuriesUploaded(IDialogContext context, IAwaitable<IEnumerable<Attachment>> arg)
+        {
+            AssaultInjuryImages = await arg;
+
+            if (AssaultInjuryImages.Any())
+            {
+                await context.PostAsync($"Thank you for uploading those for me.");
+            }
+
+            context.Wait(MessageReceivedAsync);
+        }
+
+
+        private async Task ConfirmWeaponAdditionalServices(IDialogContext context, IAwaitable<bool> arg)
+        {
+            var confirm = await arg;
+
+            if (confirm)
+            {
+                // Complainant needs additional services, notify them here.
+            }
+            else
+            {
+
+            }
+
+            context.Wait(MessageReceivedAsync);
+        }
+
+        private void PromptForStolenObjectUpload(IDialogContext context)
         {
             PromptDialog.Attachment(
                 context,
                 TheftObjectUploaded,
-                $"Please upload a picture of your {TheftObject}");
+                $"Please upload a picture of your {LUISIssueResult.CurrentResponse.Entities.Where(x => x.Type == Entities.StolenObject).FirstOrDefault()?.Entity}");
         }
 
         private async Task ForwardToOperator(IDialogContext context)
@@ -280,9 +339,9 @@ namespace NonEmergencyBot.Dialogs
 
         private async Task TheftObjectUploaded(IDialogContext context, IAwaitable<IEnumerable<Attachment>> arg)
         {
-            var attachments = await arg;
+            StolenObjectImages = await arg;
 
-            var att = attachments.FirstOrDefault();
+            var att = StolenObjectImages.FirstOrDefault();
 
             if (att != null)
             {
@@ -294,7 +353,7 @@ namespace NonEmergencyBot.Dialogs
                     client.Endpoint = "https://northeurope.api.cognitive.microsoft.com";
                     var imageAnalysis = await client.AnalyzeImageInStreamAsync(stream, features);
 
-                    if (ContainsItemOrPseudonym(imageAnalysis.Tags, TheftObject))
+                    if (ContainsItemOrPseudonym(imageAnalysis.Tags, LUISIssueResult.CurrentResponse.Entities.Where(x => x.Type == Entities.StolenObject).FirstOrDefault()?.Entity))
                     {
                         await IssueCrimeReferenceNumber(context);
                     }
@@ -303,12 +362,15 @@ namespace NonEmergencyBot.Dialogs
                         PromptDialog.Confirm(
                             context,
                             ConfirmPictureIsCorrect,
-                            $"That looks like {imageAnalysis.Description.Captions[0].Text}. Are you sure this is a picture of the {TheftObject}",
+                            $"That looks like {imageAnalysis.Description.Captions[0].Text}. Are you sure this is a picture of the " +
+                            $"{LUISIssueResult.CurrentResponse.Entities.Where(x => x.Type == Entities.StolenObject).FirstOrDefault()?.Entity}",
                             "Sorry, I didn't quite understand you, can you try again?",
                             promptStyle: PromptStyle.Auto);
                     }
                 }
             }
+
+            context.Wait(MessageReceivedAsync);
         }
 
         private async Task ConfirmPictureIsCorrect(IDialogContext context, IAwaitable<bool> result)
@@ -317,12 +379,16 @@ namespace NonEmergencyBot.Dialogs
 
             if (confirmed)
             {
+                State = BotState.AskLocation;
                 await ForwardToOperator(context);
             }
             else
             {
-                PromptForPictureUpload(context);
+                StolenObjectImages.ToList().Clear();
+                PromptForStolenObjectUpload(context);
             }
+
+            context.Wait(MessageReceivedAsync);
         }
 
         private bool ContainsItemOrPseudonym(IList<ImageTag> tags, string theftObject)
